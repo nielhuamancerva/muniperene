@@ -20,8 +20,8 @@
                              <img src="imagenes/ciudad.png" width="96" height="96" >
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="cas.php">Inicio</a>
-                              <a class="dropdown-item" href="cas.php">Convocatoria CAS</a>
+                              <a class="dropdown-item" href="#">Inicio</a>
+                              <a class="dropdown-item" href="#">Convocatoria CAS</a>
                               <a class="dropdown-item" href="#">Organización</a>
                              </div>
                       </li>
@@ -31,7 +31,7 @@
                              <img src="imagenes/muni.png" width="96" height="96" >
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="webturismo.php">Turismo Municipal</a>
+                              <a class="dropdown-item" href="#">Turismo Municipal</a>
                               <a class="dropdown-item" href="#">Historia Municipal</a>
                                 <a class="dropdown-item" href="#">Información General</a>
                             </div>
@@ -42,8 +42,8 @@
                              <img src="imagenes/servicio.png" width="96" height="96" >
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="noticias.php">Noticas al Dia</a>
-                              <a class="dropdown-item" href="dni.php">Padron del Covid-19</a>
+                              <a class="dropdown-item" href="#">Noticas al Dia</a>
+                              <a class="dropdown-item" href="#">Padron del Covid-19</a>
                              </div>
                       </li>
                        <li class="nav-item dropdown list-inline-item">
@@ -61,9 +61,9 @@
                              <img src="imagenes/normatividad.png" width="96" height="96" >
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="normativa.php">Ordenanza Municipal</a>
-                              <a class="dropdown-item" href="normativa.php">Decreto de Alcaldia</a>
-                              <a class="dropdown-item" href="normativa.php">Acuerdo de Concejo</a>
+                              <a class="dropdown-item" href="#">Ordenanza Municipal</a>
+                              <a class="dropdown-item" href="#">Decreto de Alcaldia</a>
+                              <a class="dropdown-item" href="#">Acuerdo de Concejo</a>
                             </div>
                       </li>
                     </ul>

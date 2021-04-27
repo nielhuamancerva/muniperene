@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Noticias;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use File;
 class NoticiasController extends Controller
 {
@@ -35,21 +36,28 @@ class NoticiasController extends Controller
             $file=$request->thumbnail;
             $file->move(public_path() . '/imagenes',$file->getClientOriginalName());
         
-                if(File::exists(public_path("image/{$file->getClientOriginalName()}")))
+            if($request->id==''){
+                $noticia = new Noticias();
+            }
+            else{
+                $noticia=Noticias::findOrFail($request->id);
+                $img=$noticia->imagen;
+                if(File::exists(public_path("imagenes/{$img}")))
                 {
                     Storage::delete($img);
-                    $noticia=Noticias::findOrFail($request->id);
                 }
-                else
-                {
-                    $noticia = new Noticias();
-                }
-                    $noticia->nombre_noticia = $request->nombre_noticia;
-                    $noticia->descripcion = $request->descripcion;
-                    $noticia->imagen = $file->getClientOriginalName();
-                    $noticia ->save();
-                    return $noticia;
+            }
+            $noticia->imagen = $file->getClientOriginalName();
         }
+        else
+        {
+            $noticia=Noticias::findOrFail($request->id);
+            $noticia->imagen = $noticia->imagen;
+        }
+        $noticia->nombre_noticia = $request->nombre_noticia;
+        $noticia->descripcion = $request->descripcion;
+        $noticia ->save();
+        return $noticia;
     }
 
     public function show($id)

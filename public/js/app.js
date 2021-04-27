@@ -1967,12 +1967,15 @@ __webpack_require__.r(__webpack_exports__);
         nombre_noticia: '',
         descripcion: '',
         thumbnail: null
-      }
+      },
+      nombre: null
     };
   },
   created: function created() {
     this.noticia.id = this.$route.params.id;
-    this.name = this.$route.params.imagen;
+    this.noticia.nombre_noticia = this.$route.params.nombre_noticia;
+    this.noticia.descripcion = this.$route.params.descripcion;
+    this.nombre = this.$route.params.imagen;
   },
   methods: {
     clickbutton: function clickbutton() {
@@ -1980,11 +1983,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     select_file: function select_file(event) {
       this.noticia.thumbnail = event.target.files[0];
+      this.nombre = this.noticia.thumbnail.name;
     },
     editar: function editar() {
       var _this = this;
 
-      if (this.noticia.nombre_noticia.trim() === '' || this.noticia.descripcion.trim() === '' || this.noticia.thumbnail === null) {
+      if (this.noticia.nombre_noticia.trim() === '' || this.noticia.descripcion.trim() === '') {
         alert('Debes completar todos los campos antes de guardar');
         return;
       }
@@ -2225,7 +2229,8 @@ __webpack_require__.r(__webpack_exports__);
         nombre_noticia: '',
         descripcion: '',
         thumbnail: null
-      }
+      },
+      nombre: null
     };
   },
   created: function created() {},
@@ -2235,6 +2240,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     select_file: function select_file(event) {
       this.noticia.thumbnail = event.target.files[0];
+      this.nombre = this.noticia.thumbnail.name;
     },
     agregar: function agregar() {
       var _this = this;
@@ -38954,7 +38960,7 @@ var render = function() {
                   expression: "false"
                 }
               ],
-              attrs: { id: "boton-descarga", type: "file", required: "" },
+              attrs: { id: "boton-descarga", type: "file", novalidate: "" },
               on: { change: _vm.select_file }
             }),
             _vm._v(" "),
@@ -38968,7 +38974,9 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("span", { attrs: { id: "glosaArchivos" } }, [_vm._v("{{}}")])
+            _c("span", { attrs: { id: "glosaArchivos" } }, [
+              _vm._v(_vm._s(_vm.nombre))
+            ])
           ])
         ]),
         _vm._v(" "),
@@ -39519,10 +39527,7 @@ var render = function() {
         _c("div", { staticClass: "form-group row" }, [
           _c(
             "label",
-            {
-              staticClass: "col-md-4 col-form-label text-md-right",
-              attrs: { for: "name" }
-            },
+            { staticClass: "col-md-4 col-form-label text-md-right" },
             [_vm._v("Imagen")]
           ),
           _vm._v(" "),
@@ -39536,7 +39541,7 @@ var render = function() {
                   expression: "false"
                 }
               ],
-              attrs: { id: "boton-descarga", type: "file", required: "" },
+              attrs: { id: "boton-descarga", type: "file" },
               on: { change: _vm.select_file }
             }),
             _vm._v(" "),
@@ -39550,7 +39555,9 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("span", { attrs: { id: "glosaArchivos" } }, [_vm._v("{{}}")])
+            _c("span", { attrs: { id: "glosaArchivos" } }, [
+              _vm._v(_vm._s(_vm.nombre))
+            ])
           ])
         ]),
         _vm._v(" "),

@@ -17,11 +17,11 @@
         </div>
 
          <div class="form-group row">
-            <label for="name" class="col-md-4 col-form-label text-md-right">Imagen</label>
+            <label class="col-md-4 col-form-label text-md-right">Imagen</label>
             <div class="col-md-6">
-                <input v-show="false" id="boton-descarga" type="file" @change="select_file" required>
+                <input v-show="false" id="boton-descarga" type="file" @change="select_file" >
                 <input type="button" @click.prevent="clickbutton" value="Upload File">
-                 <span id="glosaArchivos">{{}}</span>
+                 <span id="glosaArchivos">{{nombre}}</span>
             </div>
         </div>
 
@@ -41,6 +41,7 @@ export default {
       noticias: [],
       name:null,
       noticia: {id:'',nombre_noticia:'',descripcion: '', thumbnail:null},
+      nombre:null
     }
   },
   created(){
@@ -54,6 +55,7 @@ clickbutton()
     ,
       select_file(event){
           this.noticia.thumbnail=event.target.files[0];
+          this.nombre=this.noticia.thumbnail.name;
          
       }, 
     agregar(){

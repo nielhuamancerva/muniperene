@@ -19,9 +19,9 @@
          <div class="form-group row">
             <label for="name" class="col-md-4 col-form-label text-md-right">Imagen</label>
             <div class="col-md-6">
-                <input v-show="false" id="boton-descarga" type="file" @change="select_file" required>
+                <input v-show="false" id="boton-descarga" type="file" @change="select_file" novalidate>
                 <input type="button" @click.prevent="clickbutton" value="Upload File">
-                 <span id="glosaArchivos">{{}}</span>
+                 <span id="glosaArchivos">{{nombre}}</span>
             </div>
         </div>
 
@@ -41,14 +41,14 @@ export default {
       noticias: [],
       name:null,
       noticia: {id:'',nombre_noticia:'',descripcion: '', thumbnail:null},
-      
+      nombre:null
     }
   },
   created(){
     this.noticia.id=this.$route.params.id; 
-   
-    this.name=this.$route.params.imagen;
-
+     this.noticia.nombre_noticia=this.$route.params.nombre_noticia; 
+    this.noticia.descripcion=this.$route.params.descripcion; 
+    this.nombre=this.$route.params.imagen;
   },
   methods:{
 clickbutton()
@@ -58,19 +58,20 @@ clickbutton()
     ,
       select_file(event){
           this.noticia.thumbnail=event.target.files[0];
-    
+          this.nombre=this.noticia.thumbnail.name;
        
       }, 
     editar(){
-      if(this.noticia.nombre_noticia.trim() === '' || this.noticia.descripcion.trim() === '' || this.noticia.thumbnail === null){
+      if(this.noticia.nombre_noticia.trim() === '' || this.noticia.descripcion.trim() === ''){
         alert('Debes completar todos los campos antes de guardar');
         return;
       }
+
     let noticia = new FormData();
       for(let key in this.noticia){ 
           noticia.append(key, this.noticia[key]);
       }
-  
+
      axios.post('/api/noticias', noticia)
         .then((res) =>{
           
