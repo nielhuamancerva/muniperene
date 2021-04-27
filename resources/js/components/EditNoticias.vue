@@ -66,19 +66,15 @@ clickbutton()
         alert('Debes completar todos los campos antes de guardar');
         return;
       }
-           let noticia = new FormData();
-        noticia.append("picture", this.noticia.picture);
-   noticia.append("title", this.noticia.title);
-    noticia.append("description", this.noticia.description);
+    let noticia = new FormData();
+      for(let key in this.noticia){ 
+          noticia.append(key, this.noticia[key]);
+      }
   
-   
-
-
-      axios.put(`api/noticias/${this.noticia.id}`, this.noticia)
-        .then(res=>{
-             console.log(this.noticia);
-     this.$router.push({ path: '/noticias' })
-      
+     axios.post('/api/noticias', noticia)
+        .then((res) =>{
+          
+            this.$router.push({ path: '/noticias' })
         })
     }
   

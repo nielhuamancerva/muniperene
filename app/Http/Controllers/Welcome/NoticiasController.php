@@ -5,11 +5,22 @@ namespace App\Http\Controllers\Welcome;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Noticias;
+use Illuminate\Support\Facades\Storage;
+use File;
 class NoticiasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return $noticias=Noticias::all();
+        $noticias=Noticias::paginate(5);
+        return ['paginate'=>[
+            'total' => $noticias->total(),
+            'current_page' => $noticias->currentPage(),
+            'per_page' =>$noticias->perPage(),
+            'last_page' =>$noticias->lastPage(),
+            'from' => $noticias->firstItem(),
+            'to' => $noticias->lastPage(),
+        ],
+        'noticias'=> $noticias];
     }
 
     public function create()
@@ -19,18 +30,26 @@ class NoticiasController extends Controller
 
     public function store(Request $request)
     {
-
-        $noticia = new Noticias();
-        $noticia->nombre_noticia = $request->nombre_noticia;
-        $noticia->descripcion = $request->descripcion;
-        if($request->hasFile('thumbnail')){
+        if($request->hasFile('thumbnail'))
+        {
             $file=$request->thumbnail;
             $file->move(public_path() . '/imagenes',$file->getClientOriginalName());
-            $noticia->imagen = $file->getClientOriginalName();
+        
+                if(File::exists(public_path("image/{$file->getClientOriginalName()}")))
+                {
+                    Storage::delete($img);
+                    $noticia=Noticias::findOrFail($request->id);
+                }
+                else
+                {
+                    $noticia = new Noticias();
+                }
+                    $noticia->nombre_noticia = $request->nombre_noticia;
+                    $noticia->descripcion = $request->descripcion;
+                    $noticia->imagen = $file->getClientOriginalName();
+                    $noticia ->save();
+                    return $noticia;
         }
-        $noticia ->save();
-
-    return $noticia;
     }
 
     public function show($id)
@@ -45,20 +64,7 @@ class NoticiasController extends Controller
 
     public function update(Request $request, $id)
     {
-        $noticia=Noticias::findOrFail($id);
-      /*  unlink(public_path('./imagenes/'.$noticia->imagen));*/
-        $noticia->nombre_noticia = $request->nombre_noticia;
-        $noticia->descripcion = $request->descripcion;
-        if(isset($_FILES['thumbnail'])){
-            
-            $file=$request->thumbnail;
-            
-            $file->move(public_path() . '/imagenes',$file->getClientOriginalName());
-            $noticia->imagen = $file->getClientOriginalName();
-        }
-    
-        $noticia->save();
-        return $noticia;
+      
     }
 
     public function destroy($id)

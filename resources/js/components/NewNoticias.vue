@@ -40,8 +40,7 @@ export default {
     return {
       noticias: [],
       name:null,
-      noticia: {nombre_noticia:'',descripcion: '', thumbnail:null},
-      
+      noticia: {id:'',nombre_noticia:'',descripcion: '', thumbnail:null},
     }
   },
   created(){
@@ -69,7 +68,7 @@ clickbutton()
   
       axios.post('/api/noticias', noticia)
         .then((res) =>{
-             console.log(this.noticia);
+    
             this.$router.push({ path: '/noticias' })
         })
     }

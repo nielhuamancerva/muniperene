@@ -1990,12 +1990,12 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var noticia = new FormData();
-      noticia.append("picture", this.noticia.picture);
-      noticia.append("title", this.noticia.title);
-      noticia.append("description", this.noticia.description);
-      axios.put("api/noticias/".concat(this.noticia.id), this.noticia).then(function (res) {
-        console.log(_this.noticia);
 
+      for (var key in this.noticia) {
+        noticia.append(key, this.noticia[key]);
+      }
+
+      axios.post('/api/noticias', noticia).then(function (res) {
         _this.$router.push({
           path: '/noticias'
         });
@@ -2221,6 +2221,7 @@ __webpack_require__.r(__webpack_exports__);
       noticias: [],
       name: null,
       noticia: {
+        id: '',
         nombre_noticia: '',
         descripcion: '',
         thumbnail: null
@@ -2250,8 +2251,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post('/api/noticias', noticia).then(function (res) {
-        console.log(_this.noticia);
-
         _this.$router.push({
           path: '/noticias'
         });
@@ -2328,13 +2327,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      noticias: null
+      noticias: [],
+      offset: 3,
+      paginate: {
+        'total': 0,
+        'current_page': 0,
+        'per_page': 0,
+        'last_page': 0,
+        'from': 0,
+        'to': 0
+      }
     };
   },
+  computed: {
+    isActived: function isActived() {
+      return this.paginate.current_page;
+    },
+    pagesNumber: function pagesNumber() {
+      if (!this.paginate.to) {
+        return [];
+      }
+
+      var from = this.paginate.current_page - this.offset;
+
+      if (from < 1) {
+        from = 1;
+      }
+
+      var to = from + this.offset * 2;
+
+      if (to >= this.paginate.last_page) {
+        to = this.paginate.last_page;
+      }
+
+      var pagesArray = [];
+
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+
+      return pagesArray;
+    }
+  },
+  mounted: function mounted() {
+    this.getNoticias();
+  },
   methods: {
+    getNoticias: function getNoticias(page) {
+      var _this = this;
+
+      var urlNoticias = '/api/noticias?page=' + page;
+      axios.get(urlNoticias).then(function (res) {
+        _this.noticias = res.data.noticias.data, _this.paginate = res.data.paginate;
+      });
+    },
     newnoticia: function newnoticia() {
       this.$router.push({
         path: '/newnoticias'
@@ -2351,14 +2427,11 @@ __webpack_require__.r(__webpack_exports__);
         name: 'EditNoticias',
         params: params
       });
+    },
+    changePage: function changePage(page) {
+      this.paginate.current_page = page;
+      this.getNoticias(page);
     }
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/api/noticias').then(function (res) {
-      _this.noticias = res.data;
-    });
   }
 });
 
@@ -39601,8 +39674,8 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
-            _vm._l(_vm.noticias, function(item, index) {
-              return _c("tbody", { key: index }, [
+            _vm._l(_vm.noticias, function(item) {
+              return _c("tbody", { key: item.id }, [
                 _c("tr", [
                   _c("th", { attrs: { scope: "row" } }, [
                     _vm._v(_vm._s(item.id))
@@ -39633,7 +39706,84 @@ var render = function() {
             })
           ],
           2
-        )
+        ),
+        _vm._v(" "),
+        _c("nav", [
+          _c(
+            "ul",
+            {
+              staticClass: "pagination",
+              attrs: { "aria-label": "Page navigation example" }
+            },
+            [
+              _vm.paginate.current_page > 1
+                ? _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "page-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.changePage(_vm.paginate.current_page - 1)
+                          }
+                        }
+                      },
+                      [_c("span", [_vm._v("Atras")])]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.pagesNumber, function(page) {
+                return _c(
+                  "li",
+                  {
+                    key: page.id,
+                    staticClass: "page-item",
+                    class: [page == _vm.isActived ? "active" : ""]
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "page-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.changePage(page)
+                          }
+                        }
+                      },
+                      [_vm._v("\n\t\t\t\t\t\t" + _vm._s(page) + "\n\t\t\t\t\t")]
+                    )
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _vm.paginate.current_page < _vm.paginate.last_page
+                ? _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "page-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.changePage(_vm.paginate.current_page + 1)
+                          }
+                        }
+                      },
+                      [_c("span", [_vm._v("Siguiente")])]
+                    )
+                  ])
+                : _vm._e()
+            ],
+            2
+          )
+        ])
       ])
     ])
   ])
