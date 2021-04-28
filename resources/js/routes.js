@@ -27,7 +27,14 @@ export default{
         {
             path: '/register',
             name: 'Register',
-            component: Register
+            component: Register,
+            beforeEnter: (to, form, next) =>{
+                axios.get('/api/athenticated').then(()=>{
+                    next()
+                }).catch(()=>{
+                    return next({ name: 'Login'})
+                })
+            }
         },
         {
             path: '/login',
