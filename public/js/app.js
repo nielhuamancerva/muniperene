@@ -2648,6 +2648,7 @@ __webpack_require__.r(__webpack_exports__);
     component: _components_About__WEBPACK_IMPORTED_MODULE_1__.default
   }, {
     path: '/register',
+    name: 'Register',
     component: _components_Register__WEBPACK_IMPORTED_MODULE_2__.default
   }, {
     path: '/login',
