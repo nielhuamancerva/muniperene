@@ -6,6 +6,7 @@
         Email: {{user.email}}<br><br>
         <button @click.prevent="logout">Logout</button>
         <button @click.prevent="noticia">Noticias</button>
+        <button @click.prevent="normatividad">Normatividad</button>
         </div>
 
     </div>
@@ -25,6 +26,9 @@ export default {
         },
         noticia(){
             this.$router.push({ name: 'Noticias' })
+        },
+        normatividad(){
+            this.$router.push({ name: 'Normatividad' })
         }
     },
     mounted(){

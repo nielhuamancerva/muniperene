@@ -7,7 +7,7 @@ import NotFound from './components/NotFound';
 import Noticias from './components/Noticias';
 import NewNoticias from './components/NewNoticias';
 import EditNoticias from './components/EditNoticias';
-
+import Normatividad from './components/Normatividad';
 export default{
     mode: 'history',
     routes: [
@@ -92,7 +92,20 @@ export default{
                      })
                  }
              
-                }
+                },
+                {
+                    path: "/normatividad",
+                    name: "Normatividad",
+                    component: Normatividad,
+                   beforeEnter: (to, form, next) =>{
+                       axios.get('/api/athenticated').then(()=>{
+                           next()
+                       }).catch(()=>{
+                           return next({ name: 'Login'})
+                       })
+                   }
+               
+                  }
           
     ]
 }
