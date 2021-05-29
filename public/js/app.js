@@ -39877,7 +39877,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-5 mx-auto" }, [
+      _c("div", { staticClass: "col-md-8 mx-auto" }, [
         _c("h3", { staticClass: "text-center" }, [
           _vm._v(" LISTA DE NORMATIVIDAD ")
         ]),
@@ -39921,6 +39921,7 @@ var render = function() {
                         _vm._s(item.numero_documento) +
                         "-" +
                         _vm._s(item.año_documento) +
+                        "-" +
                         _vm._s(item.siglas_documento)
                     )
                   ]),

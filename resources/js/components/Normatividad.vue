@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-        <div class="col-md-5 mx-auto">
+        <div class="col-md-8 mx-auto">
             <h3 class="text-center"> LISTA DE NORMATIVIDAD </h3>   
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#CrearPersonas" @click.prevent="newnoticia">Nuevo Persona</button>  
                 <table class="table table-hover table-responsive">
@@ -19,7 +19,7 @@
                    
                         <tr>
                         <th scope="row">{{item.id}}</th>
-                        <td>{{item.tipo_documento}} N°{{item.numero_documento}}-{{item.año_documento}}{{item.siglas_documento}}</td>
+                        <td>{{item.tipo_documento}} N°{{item.numero_documento}}-{{item.año_documento}}-{{item.siglas_documento}}</td>
                         <td>{{item.resumen_documento}}</td>
                         <td>{{item.archivo}}</td>                              
                         <td>
