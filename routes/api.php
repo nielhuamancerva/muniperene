@@ -26,3 +26,4 @@ Route::post('logout', 'App\Http\Controllers\Login\LoginController@logout');
 Route::get('/backindex', 'App\Http\Controllers\Welcome\SlideController@index')->name('backindex');
 
 Route::resource('noticias', 'App\Http\Controllers\Welcome\NoticiasController');
+Route::resource('normatividad', 'App\Http\Controllers\Normatividad\NormatividadController');

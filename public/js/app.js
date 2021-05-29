@@ -2347,7 +2347,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      noticias: [],
+      normatividad: [],
       offset: 3,
       paginate: {
         'total': 0,
@@ -2397,9 +2397,9 @@ __webpack_require__.r(__webpack_exports__);
     getNoticias: function getNoticias(page) {
       var _this = this;
 
-      var urlNoticias = '/api/noticias?page=' + page;
+      var urlNoticias = '/api/normatividad?page=' + page;
       axios.get(urlNoticias).then(function (res) {
-        _this.noticias = res.data.noticias.data, _this.paginate = res.data.paginate;
+        _this.normatividad = res.data.normatividad.data, _this.paginate = res.data.paginate;
       });
     },
     newnoticia: function newnoticia() {
@@ -39907,18 +39907,27 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
-            _vm._l(_vm.noticias, function(item) {
+            _vm._l(_vm.normatividad, function(item) {
               return _c("tbody", { key: item.id }, [
                 _c("tr", [
                   _c("th", { attrs: { scope: "row" } }, [
                     _vm._v(_vm._s(item.id))
                   ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.nombre_noticia))]),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(item.tipo_documento) +
+                        " N°" +
+                        _vm._s(item.numero_documento) +
+                        "-" +
+                        _vm._s(item.año_documento) +
+                        _vm._s(item.siglas_documento)
+                    )
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.descripcion))]),
+                  _c("td", [_vm._v(_vm._s(item.resumen_documento))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.imagen))]),
+                  _c("td", [_vm._v(_vm._s(item.archivo))]),
                   _vm._v(" "),
                   _c("td", [
                     _c(
@@ -40030,11 +40039,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Documento")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Descipcion")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Descripción")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Imagen")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Archivo")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("operaciones")])
       ])

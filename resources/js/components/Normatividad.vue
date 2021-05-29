@@ -8,20 +8,20 @@
                     <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Descipcion</th>
-                          <th scope="col">Imagen</th>
+                        <th scope="col">Documento</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Archivo</th>
                         <th scope="col">operaciones</th>
                         </tr>
                     </thead>
                   
-                    <tbody v-for="item in noticias" :key="item.id">
+                    <tbody v-for="item in normatividad" :key="item.id">
                    
                         <tr>
                         <th scope="row">{{item.id}}</th>
-                        <td>{{item.nombre_noticia}}</td>
-                        <td>{{item.descripcion}}</td>
-                        <td>{{item.imagen}}</td>                              
+                        <td>{{item.tipo_documento}} N°{{item.numero_documento}}-{{item.año_documento}}{{item.siglas_documento}}</td>
+                        <td>{{item.resumen_documento}}</td>
+                        <td>{{item.archivo}}</td>                              
                         <td>
                              <button class="btn btn-warning btn-sm" @click="editar(item)">Editar</button>
                         </td>
@@ -62,7 +62,7 @@
 export default {
     data(){
         return{
-            noticias: [],
+            normatividad: [],
             offset:3,
             paginate:{
             'total':0,
@@ -109,9 +109,9 @@ export default {
     },
     methods:{
         getNoticias: function(page){
-            var urlNoticias = '/api/noticias?page='+page;
+            var urlNoticias = '/api/normatividad?page='+page;
             axios.get(urlNoticias).then((res)=>{
-            this.noticias= res.data.noticias.data,
+            this.normatividad= res.data.normatividad.data,
             this.paginate = res.data.paginate
         })
         },
