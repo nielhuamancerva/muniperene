@@ -70,7 +70,6 @@ clickbutton()
   
       axios.post('/api/noticias', noticia)
         .then((res) =>{
-    
             this.$router.push({ path: '/noticias' })
         })
     }

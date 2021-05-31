@@ -29,7 +29,16 @@ class NormatividadController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $normatividad = new Normatividad();
+        $normatividad->tipo_documento = $request->tipo_documento;
+        $normatividad->numero_documento = $request->numero_documento;
+        $normatividad->año_documento = $request->año_documento;
+        $normatividad->siglas_documento = $request->siglas_documento;
+        $normatividad->resumen_documento = $request->resumen_documento;
+        $normatividad->archivo = $request->archivo;
+        $normatividad ->save();
+        return $normatividad;
+
     }
 
     public function show($id)

@@ -2344,10 +2344,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       normatividad: [],
+      newnormativad: {
+        tipo_documento: '',
+        numero_documento: '',
+        año_documento: '',
+        siglas_documento: '',
+        resumen_documento: '',
+        archivo: ''
+      },
       offset: 3,
       paginate: {
         'total': 0,
@@ -2402,26 +2453,47 @@ __webpack_require__.r(__webpack_exports__);
         _this.normatividad = res.data.normatividad.data, _this.paginate = res.data.paginate;
       });
     },
-    newnoticia: function newnoticia() {
-      this.$router.push({
-        path: '/newnoticias'
-      });
+    closemodal: function closemodal() {
+      this.newnormativad = {
+        tipo_documento: '',
+        numero_documento: '',
+        año_documento: '',
+        siglas_documento: '',
+        resumen_documento: '',
+        archivo: ''
+      }, $('#exampleModal').modal('hide');
     },
     editar: function editar(item) {
-      var params = {
-        id: item.id,
-        nombre_noticia: item.nombre_noticia,
-        descripcion: item.descripcion,
-        imagen: item.imagen
-      };
-      this.$router.push({
-        name: 'EditNoticias',
-        params: params
-      });
+      this.newnormativad.tipo_documento = item.tipo_documento;
+      this.newnormativad.numero_documento = item.numero_documento;
+      this.newnormativad.año_documento = item.año_documento;
+      this.newnormativad.siglas_documento = item.siglas_documento;
+      this.newnormativad.resumen_documento = item.resumen_documento;
+      this.newnormativad.archivo = item.archivo;
     },
     changePage: function changePage(page) {
       this.paginate.current_page = page;
       this.getNoticias(page);
+    },
+    crearnormatividad: function crearnormatividad() {
+      var _this2 = this;
+
+      axios.post('/api/normatividad', this.newnormativad).then(function (res) {
+        $('#exampleModal').modal('hide');
+        var normatividad1 = res.data;
+
+        _this2.normatividad.push(normatividad1);
+
+        alert('Se Registro una nueva normatividad');
+        _this2.newnormativad = {
+          tipo_documento: '',
+          numero_documento: '',
+          año_documento: '',
+          siglas_documento: '',
+          resumen_documento: '',
+          archivo: ''
+        };
+      });
     }
   }
 });
@@ -39889,13 +39961,7 @@ var render = function() {
             attrs: {
               type: "button",
               "data-toggle": "modal",
-              "data-target": "#CrearPersonas"
-            },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.newnoticia($event)
-              }
+              "data-target": "#exampleModal"
             }
           },
           [_vm._v("Nuevo Persona")]
@@ -39935,6 +40001,10 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-warning btn-sm",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#exampleModal"
+                        },
                         on: {
                           click: function($event) {
                             return _vm.editar(item)
@@ -39999,7 +40069,13 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("\n\t\t\t\t\t\t" + _vm._s(page) + "\n\t\t\t\t\t")]
+                      [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(page) +
+                            "\n                            "
+                        )
+                      ]
                     )
                   ]
                 )
@@ -40028,7 +40104,322 @@ var render = function() {
           )
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true",
+          "data-backdrop": "static",
+          "data-keyboard": "false"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLabel" }
+                  },
+                  [_vm._v("Crear Normatividad")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.closemodal($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.editar($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "recipient-name" }
+                        },
+                        [_vm._v("Documento:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newnormativad.tipo_documento,
+                            expression: "newnormativad.tipo_documento"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "recipient-name" },
+                        domProps: { value: _vm.newnormativad.tipo_documento },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newnormativad,
+                              "tipo_documento",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "recipient-name" }
+                        },
+                        [_vm._v("Numero de Documento:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newnormativad.numero_documento,
+                            expression: "newnormativad.numero_documento"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "recipient-name" },
+                        domProps: { value: _vm.newnormativad.numero_documento },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newnormativad,
+                              "numero_documento",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "recipient-name" }
+                        },
+                        [_vm._v("Año del Documento:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newnormativad.año_documento,
+                            expression: "newnormativad.año_documento"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "recipient-name" },
+                        domProps: { value: _vm.newnormativad.año_documento },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newnormativad,
+                              "año_documento",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "recipient-name" }
+                        },
+                        [_vm._v("Siglas del Documento:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newnormativad.siglas_documento,
+                            expression: "newnormativad.siglas_documento"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "recipient-name" },
+                        domProps: { value: _vm.newnormativad.siglas_documento },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newnormativad,
+                              "siglas_documento",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "recipient-name" }
+                        },
+                        [_vm._v("Resumen:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newnormativad.resumen_documento,
+                            expression: "newnormativad.resumen_documento"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "recipient-name" },
+                        domProps: {
+                          value: _vm.newnormativad.resumen_documento
+                        },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newnormativad,
+                              "resumen_documento",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-form-label",
+                          attrs: { for: "recipient-name" }
+                        },
+                        [_vm._v("Archivo:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newnormativad.archivo,
+                            expression: "newnormativad.archivo"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "recipient-name" },
+                        domProps: { value: _vm.newnormativad.archivo },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.newnormativad,
+                              "archivo",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.crearnormatividad($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Guardar")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [

@@ -120,6 +120,8 @@ export default {
         },
 
         editar(item){
+            
+
             const params = {id: item.id, nombre_noticia: item.nombre_noticia,descripcion: item.descripcion, imagen:item.imagen};
             this.$router.push({ name: 'EditNoticias',params})
         },
