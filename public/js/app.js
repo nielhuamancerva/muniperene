@@ -2392,6 +2392,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       normatividad: [],
       newnormativad: {
+        id: '',
         tipo_documento: '',
         numero_documento: '',
         año_documento: '',
@@ -2455,6 +2456,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     closemodal: function closemodal() {
       this.newnormativad = {
+        id: '',
         tipo_documento: '',
         numero_documento: '',
         año_documento: '',
@@ -2464,6 +2466,7 @@ __webpack_require__.r(__webpack_exports__);
       }, $('#exampleModal').modal('hide');
     },
     editar: function editar(item) {
+      this.newnormativad.id = item.id;
       this.newnormativad.tipo_documento = item.tipo_documento;
       this.newnormativad.numero_documento = item.numero_documento;
       this.newnormativad.año_documento = item.año_documento;
@@ -2478,22 +2481,42 @@ __webpack_require__.r(__webpack_exports__);
     crearnormatividad: function crearnormatividad() {
       var _this2 = this;
 
-      axios.post('/api/normatividad', this.newnormativad).then(function (res) {
-        $('#exampleModal').modal('hide');
-        var normatividad1 = res.data;
+      if (this.newnormativad.id === '') {
+        axios.post('/api/normatividad', this.newnormativad).then(function (res) {
+          $('#exampleModal').modal('hide');
+          var normatividad1 = res.data;
 
-        _this2.normatividad.push(normatividad1);
+          _this2.normatividad.push(normatividad1);
 
-        alert('Se Registro una nueva normatividad');
-        _this2.newnormativad = {
-          tipo_documento: '',
-          numero_documento: '',
-          año_documento: '',
-          siglas_documento: '',
-          resumen_documento: '',
-          archivo: ''
-        };
-      });
+          alert('Se Registro una nueva normatividad');
+          _this2.newnormativad = {
+            id: '',
+            tipo_documento: '',
+            numero_documento: '',
+            año_documento: '',
+            siglas_documento: '',
+            resumen_documento: '',
+            archivo: ''
+          };
+        });
+      } else {
+        axios.put("/api/normatividad/".concat(this.newnormativad.id), this.newnormativad).then(function (res) {
+          $('#exampleModal').modal('hide');
+
+          _this2.getNoticias();
+
+          alert('Se Actualizdo una nueva normatividad');
+          _this2.newnormativad = {
+            id: '',
+            tipo_documento: '',
+            numero_documento: '',
+            año_documento: '',
+            siglas_documento: '',
+            resumen_documento: '',
+            archivo: ''
+          };
+        });
+      }
     }
   }
 });

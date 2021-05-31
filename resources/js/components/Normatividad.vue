@@ -106,7 +106,7 @@ export default {
     data(){
         return{
             normatividad: [],
-            newnormativad: {tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''},
+            newnormativad: {id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''},
             offset:3,
             paginate:{
             'total':0,
@@ -161,11 +161,12 @@ export default {
         },
 
         closemodal(){
-             this.newnormativad={tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''},
+             this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''},
               $('#exampleModal').modal('hide');
         },
 
         editar(item){
+            this.newnormativad.id=item.id;
             this.newnormativad.tipo_documento=item.tipo_documento; 
             this.newnormativad.numero_documento=item.numero_documento; 
             this.newnormativad.año_documento=item.año_documento; 
@@ -180,14 +181,27 @@ export default {
         },
 
         crearnormatividad(){
+            if(this.newnormativad.id===''){
                 axios.post('/api/normatividad',this.newnormativad)
                 .then((res) =>{
                 $('#exampleModal').modal('hide');
                 const normatividad1= res.data;
                 this.normatividad.push(normatividad1);
                 alert('Se Registro una nueva normatividad');
-                this.newnormativad={tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''};
-        })
+                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''};
+                })  
+            }
+            else{
+                axios.put(`/api/normatividad/${this.newnormativad.id}`,this.newnormativad)
+                .then((res) =>{
+                $('#exampleModal').modal('hide');
+            this.getNoticias();
+                alert('Se Actualizdo una nueva normatividad');
+                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''};
+                })  
+
+            }
+
         },
     }
 }
