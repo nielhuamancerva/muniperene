@@ -29,13 +29,34 @@ class NormatividadController extends Controller
 
     public function store(Request $request)
     {
-        $normatividad = new Normatividad();
+        if($request->hasFile('archivo'))
+        {
+            $file=$request->archivo;
+            $file->move(public_path() . '/imagenes',$file->getClientOriginalName());
+        
+            if($request->id==''){
+                $normatividad = new Normatividad();
+            }
+            else{
+                $normatividad=Normatividad::find($request->id);
+                $img=$normatividad->archivo;
+                if(File::exists(public_path("imagenes/{$img}")))
+                {
+                    Storage::delete($img);
+                }
+            }
+            $normatividad->archivo = $file->getClientOriginalName();
+        }
+        else
+        {
+            $normatividad=Normatividad::find($request->id);
+            $normatividad->archivo = $normatividad->archivo;
+        }
         $normatividad->tipo_documento = $request->tipo_documento;
         $normatividad->numero_documento = $request->numero_documento;
         $normatividad->año_documento = $request->año_documento;
         $normatividad->siglas_documento = $request->siglas_documento;
         $normatividad->resumen_documento = $request->resumen_documento;
-        $normatividad->archivo = $request->archivo;
         $normatividad ->save();
         return $normatividad;
     }
@@ -52,13 +73,35 @@ class NormatividadController extends Controller
 
     public function update(Request $request, $id)
     {
-        $normatividad=Normatividad::findOrFail($id);
+        if($request->hasFile('archivo'))
+        {
+            $file=$request->archivo;
+            $file->move(public_path() . '/imagenes',$file->getClientOriginalName());
+        
+            if($request->id==''){
+                $normatividad = new Normatividad();
+            }
+            else{
+                $normatividad=Normatividad::find($request->id);
+                $img=$normatividad->archivo;
+                if(File::exists(public_path("imagenes/{$img}")))
+                {
+                    Storage::delete($img);
+                }
+            }
+            $normatividad->archivo = $file->getClientOriginalName();
+        }
+        else
+        {
+            $normatividad=Normatividad::find($request->id);
+            $normatividad->archivo = $normatividad->archivo;
+        }
+
         $normatividad->tipo_documento = $request->tipo_documento;
         $normatividad->numero_documento = $request->numero_documento;
         $normatividad->año_documento = $request->año_documento;
         $normatividad->siglas_documento = $request->siglas_documento;
         $normatividad->resumen_documento = $request->resumen_documento;
-        $normatividad->archivo = $request->archivo;
         $normatividad->update();
         return $normatividad;
     }

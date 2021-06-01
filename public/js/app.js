@@ -2391,12 +2391,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       selected: {},
       normatividad: [],
       documentos: [],
+      nombre: null,
       newnormativad: {
         id: '',
         tipo_documento: '',
@@ -2404,7 +2407,7 @@ __webpack_require__.r(__webpack_exports__);
         año_documento: '',
         siglas_documento: '',
         resumen_documento: '',
-        archivo: ''
+        archivo: null
       },
       offset: 3,
       paginate: {
@@ -2468,8 +2471,15 @@ __webpack_require__.r(__webpack_exports__);
         _this2.documentos = res.data;
       });
     },
-    select_file: function select_file(event) {
+    select_documento: function select_documento(event) {
       this.newnormativad.tipo_documento = event.target.value;
+    },
+    clickbutton: function clickbutton() {
+      $('#boton-descarga').click();
+    },
+    select_file: function select_file(event) {
+      this.newnormativad.archivo = event.target.files[0];
+      this.nombre = this.newnormativad.archivo.name;
     },
     closemodal: function closemodal() {
       this.newnormativad = {
@@ -2479,17 +2489,16 @@ __webpack_require__.r(__webpack_exports__);
         año_documento: '',
         siglas_documento: '',
         resumen_documento: '',
-        archivo: ''
+        archivo: null
       }, this.selected = '', $('#exampleModal').modal('hide');
     },
     editar: function editar(item) {
       this.newnormativad.id = item.id;
-      this.selected = item.tipo_documento;
+      this.newnormativad.tipo_documento = item.tipo_documento;
       this.newnormativad.numero_documento = item.numero_documento;
       this.newnormativad.año_documento = item.año_documento;
       this.newnormativad.siglas_documento = item.siglas_documento;
       this.newnormativad.resumen_documento = item.resumen_documento;
-      this.newnormativad.archivo = item.archivo;
     },
     changePage: function changePage(page) {
       this.paginate.current_page = page;
@@ -2499,7 +2508,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       if (this.newnormativad.id === '') {
-        axios.post('/api/normatividad', this.newnormativad).then(function (res) {
+        var newnormativad = new FormData();
+
+        for (var key in this.newnormativad) {
+          newnormativad.append(key, this.newnormativad[key]);
+        }
+
+        axios.post('/api/normatividad', newnormativad).then(function (res) {
           $('#exampleModal').modal('hide');
           var normatividad1 = res.data;
 
@@ -2514,10 +2529,16 @@ __webpack_require__.r(__webpack_exports__);
             año_documento: '',
             siglas_documento: '',
             resumen_documento: '',
-            archivo: ''
+            "null": null
           };
         });
       } else {
+        var _newnormativad = new FormData();
+
+        for (var _key in this.newnormativad) {
+          _newnormativad.append(_key, this.newnormativad[_key]);
+        }
+
         axios.put("/api/normatividad/".concat(this.newnormativad.id), this.newnormativad).then(function (res) {
           $('#exampleModal').modal('hide');
 
@@ -2526,7 +2547,7 @@ __webpack_require__.r(__webpack_exports__);
           });
 
           _this3.normatividad[index] = res.data;
-          alert('Se Actualizdo una nueva normatividad');
+          alert('Se Actualizo una nueva normatividad');
           _this3.selected = '';
           _this3.newnormativad = {
             id: '',
@@ -40221,7 +40242,7 @@ var render = function() {
                       _c(
                         "label",
                         { attrs: { for: "exampleFormControlSelect1" } },
-                        [_vm._v("Example select")]
+                        [_vm._v("Tipo de Documento")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -40231,8 +40252,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.selected,
-                              expression: "selected"
+                              value: _vm.newnormativad.tipo_documento,
+                              expression: "newnormativad.tipo_documento"
                             }
                           ],
                           staticClass: "form-control",
@@ -40248,11 +40269,15 @@ var render = function() {
                                     var val = "_value" in o ? o._value : o.value
                                     return val
                                   })
-                                _vm.selected = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
+                                _vm.$set(
+                                  _vm.newnormativad,
+                                  "tipo_documento",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
                               },
-                              _vm.select_file
+                              _vm.select_documento
                             ]
                           }
                         },
@@ -40428,28 +40453,29 @@ var render = function() {
                       _c("input", {
                         directives: [
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.newnormativad.archivo,
-                            expression: "newnormativad.archivo"
+                            name: "show",
+                            rawName: "v-show",
+                            value: false,
+                            expression: "false"
                           }
                         ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", id: "recipient-name" },
-                        domProps: { value: _vm.newnormativad.archivo },
+                        attrs: { id: "boton-descarga", type: "file" },
+                        on: { change: _vm.select_file }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { type: "button", value: "Upload File" },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.newnormativad,
-                              "archivo",
-                              $event.target.value
-                            )
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.clickbutton($event)
                           }
                         }
-                      })
+                      }),
+                      _vm._v(" "),
+                      _c("span", { attrs: { id: "glosaArchivos" } }, [
+                        _vm._v(_vm._s(_vm.nombre))
+                      ])
                     ])
                   ]
                 )

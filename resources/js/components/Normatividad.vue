@@ -69,8 +69,8 @@
                                 <form  @submit.prevent="editar">
 
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Example select</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" v-model="selected"  @change="select_file">
+                                        <label for="exampleFormControlSelect1">Tipo de Documento</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" v-model="newnormativad.tipo_documento"  @change="select_documento">
                                         <option v-for="documento in documentos" :key="documento.id">{{documento.documento}}</option>
                                         </select>
                                     </div>
@@ -93,7 +93,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Archivo:</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="newnormativad.archivo">
+                                            <input v-show="false" id="boton-descarga" type="file" @change="select_file" >
+                                            <input type="button" @click.prevent="clickbutton" value="Upload File">
+                                            <span id="glosaArchivos">{{nombre}}</span>
                                     </div>
                                 </form>
                             </div>
@@ -112,7 +114,8 @@ export default {
             selected:{},
             normatividad: [],
             documentos: [],
-            newnormativad: {id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''},
+            nombre:null,
+            newnormativad: {id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null},
             offset:3,
             paginate:{
             'total':0,
@@ -172,25 +175,31 @@ export default {
         })
         },
 
-        select_file(event){
+        select_documento(event){
         this.newnormativad.tipo_documento=event.target.value;
-         
         },
 
+        clickbutton(){
+        $('#boton-descarga').click()
+        },
+        select_file(event){
+          this.newnormativad.archivo=event.target.files[0];
+           this.nombre=this.newnormativad.archivo.name;
+        }, 
+
         closemodal(){
-             this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''},
+             this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null},
                this.selected='',
               $('#exampleModal').modal('hide');
         },
 
         editar(item){
             this.newnormativad.id=item.id;
-            this.selected=item.tipo_documento;
+            this.newnormativad.tipo_documento=item.tipo_documento;
             this.newnormativad.numero_documento=item.numero_documento; 
             this.newnormativad.año_documento=item.año_documento; 
             this.newnormativad.siglas_documento=item.siglas_documento; 
             this.newnormativad.resumen_documento=item.resumen_documento; 
-            this.newnormativad.archivo=item.archivo; 
         },
 
         changePage: function(page){
@@ -200,24 +209,32 @@ export default {
 
         crearnormatividad(){
             if(this.newnormativad.id===''){
-                axios.post('/api/normatividad',this.newnormativad)
+                  let newnormativad = new FormData();
+                    for(let key in this.newnormativad){ 
+                        newnormativad.append(key, this.newnormativad[key]);
+                    }
+                axios.post('/api/normatividad',newnormativad)
                 .then((res) =>{
                 $('#exampleModal').modal('hide');
                 const normatividad1= res.data;
                 this.normatividad.push(normatividad1);
                 alert('Se Registro una nueva normatividad');
-                  this.selected='';
-                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''};
+                this.selected='';
+                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',null:null};
                 })  
             }
             else{
+                  let newnormativad = new FormData();
+                    for(let key in this.newnormativad){ 
+                        newnormativad.append(key, this.newnormativad[key]);
+                    }
                 axios.put(`/api/normatividad/${this.newnormativad.id}`,this.newnormativad)
                 .then((res) =>{
                 $('#exampleModal').modal('hide');
                 const index = this.normatividad.findIndex(item => item.id === this.newnormativad.id);
                 this.normatividad[index] = res.data;
-                alert('Se Actualizdo una nueva normatividad');
-                  this.selected='';
+                alert('Se Actualizo una nueva normatividad');
+                this.selected='';
                 this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''};
                 })  
 

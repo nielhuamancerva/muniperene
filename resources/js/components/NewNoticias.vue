@@ -23,7 +23,7 @@
                 <input type="button" @click.prevent="clickbutton" value="Upload File">
                  <span id="glosaArchivos">{{nombre}}</span>
             </div>
-        </div>
+          </div>
 
         <div class="form-group row mb-0">
             <div class="col-md-6 offset-md-4">
@@ -56,7 +56,6 @@ clickbutton()
       select_file(event){
           this.noticia.thumbnail=event.target.files[0];
           this.nombre=this.noticia.thumbnail.name;
-         
       }, 
     agregar(){
       if(this.noticia.nombre_noticia.trim() === '' || this.noticia.descripcion.trim() === '' || this.noticia.thumbnail === null){
