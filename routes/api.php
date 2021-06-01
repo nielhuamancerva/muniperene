@@ -27,3 +27,4 @@ Route::get('/backindex', 'App\Http\Controllers\Welcome\SlideController@index')->
 
 Route::resource('noticias', 'App\Http\Controllers\Welcome\NoticiasController');
 Route::resource('normatividad', 'App\Http\Controllers\Normatividad\NormatividadController');
+Route::resource('tipodocumentos', 'App\Http\Controllers\TipoDocumentos\TipoDocumentosController');

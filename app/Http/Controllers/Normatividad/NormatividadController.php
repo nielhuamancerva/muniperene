@@ -38,7 +38,6 @@ class NormatividadController extends Controller
         $normatividad->archivo = $request->archivo;
         $normatividad ->save();
         return $normatividad;
-
     }
 
     public function show($id)

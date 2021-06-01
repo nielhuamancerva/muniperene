@@ -2387,10 +2387,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      selected: {},
       normatividad: [],
+      documentos: [],
       newnormativad: {
         id: '',
         tipo_documento: '',
@@ -2444,6 +2450,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getNoticias();
+    this.getDocumentos();
   },
   methods: {
     getNoticias: function getNoticias(page) {
@@ -2454,6 +2461,16 @@ __webpack_require__.r(__webpack_exports__);
         _this.normatividad = res.data.normatividad.data, _this.paginate = res.data.paginate;
       });
     },
+    getDocumentos: function getDocumentos() {
+      var _this2 = this;
+
+      axios.get('/api/tipodocumentos').then(function (res) {
+        _this2.documentos = res.data;
+      });
+    },
+    select_file: function select_file(event) {
+      this.newnormativad.tipo_documento = event.target.value;
+    },
     closemodal: function closemodal() {
       this.newnormativad = {
         id: '',
@@ -2463,11 +2480,11 @@ __webpack_require__.r(__webpack_exports__);
         siglas_documento: '',
         resumen_documento: '',
         archivo: ''
-      }, $('#exampleModal').modal('hide');
+      }, this.selected = '', $('#exampleModal').modal('hide');
     },
     editar: function editar(item) {
       this.newnormativad.id = item.id;
-      this.newnormativad.tipo_documento = item.tipo_documento;
+      this.selected = item.tipo_documento;
       this.newnormativad.numero_documento = item.numero_documento;
       this.newnormativad.año_documento = item.año_documento;
       this.newnormativad.siglas_documento = item.siglas_documento;
@@ -2479,17 +2496,18 @@ __webpack_require__.r(__webpack_exports__);
       this.getNoticias(page);
     },
     crearnormatividad: function crearnormatividad() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.newnormativad.id === '') {
         axios.post('/api/normatividad', this.newnormativad).then(function (res) {
           $('#exampleModal').modal('hide');
           var normatividad1 = res.data;
 
-          _this2.normatividad.push(normatividad1);
+          _this3.normatividad.push(normatividad1);
 
           alert('Se Registro una nueva normatividad');
-          _this2.newnormativad = {
+          _this3.selected = '';
+          _this3.newnormativad = {
             id: '',
             tipo_documento: '',
             numero_documento: '',
@@ -2503,10 +2521,14 @@ __webpack_require__.r(__webpack_exports__);
         axios.put("/api/normatividad/".concat(this.newnormativad.id), this.newnormativad).then(function (res) {
           $('#exampleModal').modal('hide');
 
-          _this2.getNoticias();
+          var index = _this3.normatividad.findIndex(function (item) {
+            return item.id === _this3.newnormativad.id;
+          });
 
+          _this3.normatividad[index] = res.data;
           alert('Se Actualizdo una nueva normatividad');
-          _this2.newnormativad = {
+          _this3.selected = '';
+          _this3.newnormativad = {
             id: '',
             tipo_documento: '',
             numero_documento: '',
@@ -40198,38 +40220,49 @@ var render = function() {
                     _c("div", { staticClass: "form-group" }, [
                       _c(
                         "label",
-                        {
-                          staticClass: "col-form-label",
-                          attrs: { for: "recipient-name" }
-                        },
-                        [_vm._v("Documento:")]
+                        { attrs: { for: "exampleFormControlSelect1" } },
+                        [_vm._v("Example select")]
                       ),
                       _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.newnormativad.tipo_documento,
-                            expression: "newnormativad.tipo_documento"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { type: "text", id: "recipient-name" },
-                        domProps: { value: _vm.newnormativad.tipo_documento },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.selected,
+                              expression: "selected"
                             }
-                            _vm.$set(
-                              _vm.newnormativad,
-                              "tipo_documento",
-                              $event.target.value
-                            )
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "exampleFormControlSelect1" },
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.selected = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              _vm.select_file
+                            ]
                           }
-                        }
-                      })
+                        },
+                        _vm._l(_vm.documentos, function(documento) {
+                          return _c("option", { key: documento.id }, [
+                            _vm._v(_vm._s(documento.documento))
+                          ])
+                        }),
+                        0
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
