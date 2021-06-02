@@ -61,7 +61,8 @@
                              <img src="imagenes/normatividad.png" width="96" height="96" >
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="#">Ordenanza Municipal</a>
+                
+                            <router-link to="/normas"  class="dropdown-item">Ordenanza Municipal</router-link>
                               <a class="dropdown-item" href="#">Decreto de Alcaldia</a>
                               <a class="dropdown-item" href="#">Acuerdo de Concejo</a>
                             </div>

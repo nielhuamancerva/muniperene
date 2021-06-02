@@ -40,11 +40,11 @@ class NoticiasController extends Controller
                 $noticia = new Noticias();
             }
             else{
-                $noticia=Noticias::findOrFail($request->id);
+                $noticia=Noticias::find($request->id);
                 $img=$noticia->imagen;
                 if(File::exists(public_path("imagenes/{$img}")))
                 {
-                    Storage::delete($img);
+                    File::delete("imagenes/{$img}");
                 }
             }
             $noticia->imagen = $file->getClientOriginalName();

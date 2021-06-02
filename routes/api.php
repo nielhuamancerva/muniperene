@@ -25,6 +25,10 @@ Route::post('login', 'App\Http\Controllers\Login\LoginController@login');
 Route::post('logout', 'App\Http\Controllers\Login\LoginController@logout');
 Route::get('/backindex', 'App\Http\Controllers\Welcome\SlideController@index')->name('backindex');
 
+Route::get('/download/{file}', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController@download');
+
+Route::resource('normas', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController');
+
 Route::resource('noticias', 'App\Http\Controllers\Welcome\NoticiasController');
 Route::resource('normatividad', 'App\Http\Controllers\Normatividad\NormatividadController');
 Route::resource('tipodocumentos', 'App\Http\Controllers\TipoDocumentos\TipoDocumentosController');

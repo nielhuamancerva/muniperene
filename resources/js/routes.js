@@ -8,6 +8,7 @@ import Noticias from './components/Noticias';
 import NewNoticias from './components/NewNoticias';
 import EditNoticias from './components/EditNoticias';
 import Normatividad from './components/Normatividad';
+import Documentos from './components/Documentos';
 export default{
     mode: 'history',
     routes: [
@@ -19,6 +20,11 @@ export default{
             path: '/',
             component: Home,
             name: "Home"
+        },
+        {
+            path: '/normas',
+            component: Documentos,
+            name: "Normas"
         },
         {
             path: '/about',

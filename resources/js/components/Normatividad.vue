@@ -3,7 +3,7 @@
         <div class="row">
         <div class="col-md-8 mx-auto">
             <h3 class="text-center"> LISTA DE NORMATIVIDAD </h3>   
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" >Nuevo Persona</button>  
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" >Nuevo Normatividad</button>  
                 <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
@@ -81,7 +81,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Año del Documento:</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="newnormativad.año_documento">
+                                        <select class="form-control" id="exampleFormControlSelect1" v-model="newnormativad.año_documento"  @change="select_año">
+                                        <option v-for="year in years" :key="year.value">{{year.value}}</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Siglas del Documento:</label>
@@ -112,6 +114,9 @@ export default {
     data(){
         return{
             selected:{},
+            years: [{ value: '2021', text: '2021' },{value: '2020',text: '2020'},{value: '2019',text: '2019'},{value: '2018',text: '2018'}
+            ,{value: '2017',text: '2017'},{value: '2016',text: '2016'},{value: '2015',text: '2015'},{value: '2014',text: '2014'},{value: '2013',text: '2013'}
+            ,{value: '2012',text: '2012'},{value: '2011',text: '2011'}],
             normatividad: [],
             documentos: [],
             nombre:null,
@@ -187,6 +192,10 @@ export default {
            this.nombre=this.newnormativad.archivo.name;
         }, 
 
+        select_año(event){
+          this.newnormativad.año_documento=event.target.value;
+        }, 
+
         closemodal(){
              this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null},
                this.selected='',
@@ -208,38 +217,28 @@ export default {
         },
 
         crearnormatividad(){
-            if(this.newnormativad.id===''){
-                  let newnormativad = new FormData();
+                let newnormativad = new FormData();
                     for(let key in this.newnormativad){ 
                         newnormativad.append(key, this.newnormativad[key]);
                     }
                 axios.post('/api/normatividad',newnormativad)
                 .then((res) =>{
                 $('#exampleModal').modal('hide');
+
+            if(this.newnormativad.id===''){
                 const normatividad1= res.data;
                 this.normatividad.push(normatividad1);
                 alert('Se Registro una nueva normatividad');
-                this.selected='';
-                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',null:null};
-                })  
             }
             else{
-                  let newnormativad = new FormData();
-                    for(let key in this.newnormativad){ 
-                        newnormativad.append(key, this.newnormativad[key]);
-                    }
-                axios.put(`/api/normatividad/${this.newnormativad.id}`,this.newnormativad)
-                .then((res) =>{
-                $('#exampleModal').modal('hide');
                 const index = this.normatividad.findIndex(item => item.id === this.newnormativad.id);
                 this.normatividad[index] = res.data;
                 alert('Se Actualizo una nueva normatividad');
-                this.selected='';
-                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:''};
-                })  
-
             }
-
+                this.selected='';
+                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null};
+                this.nombre='';
+                })  
         },
     }
 }
