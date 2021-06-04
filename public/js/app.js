@@ -1994,14 +1994,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       documentos: [],
-      pages: {
-        page: '',
-        buscador: ''
-      },
+      cargar_select_documento: [],
+      buscador: '',
+      tipo_documento: '',
+      years: [{
+        value: '2021',
+        text: '2021'
+      }, {
+        value: '2020',
+        text: '2020'
+      }, {
+        value: '2019',
+        text: '2019'
+      }, {
+        value: '2018',
+        text: '2018'
+      }, {
+        value: '2017',
+        text: '2017'
+      }, {
+        value: '2016',
+        text: '2016'
+      }, {
+        value: '2015',
+        text: '2015'
+      }, {
+        value: '2014',
+        text: '2014'
+      }, {
+        value: '2013',
+        text: '2013'
+      }, {
+        value: '2012',
+        text: '2012'
+      }, {
+        value: '2011',
+        text: '2011'
+      }],
       offset: 3,
       paginate: {
         'total': 0,
@@ -2046,30 +2085,39 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getNoticias();
+    this.getDocumentos();
   },
   methods: {
-    getNoticias: function getNoticias() {
+    getNoticias: function getNoticias(page) {
       var _this = this;
 
-      axios.post('/api/normas', this.pages).then(function (res) {
+      axios.get('/api/normas?page=' + page + '&buscador=' + this.buscador + '&tipo_documento=' + this.tipo_documento).then(function (res) {
         _this.documentos = res.data.documentos.data, _this.paginate = res.data.paginate;
+      })["catch"](function (error) {
+        alert('No se Realizo esta accion ' + error);
+      });
+    },
+    getDocumentos: function getDocumentos() {
+      var _this2 = this;
+
+      axios.get('/api/tipodocumentos').then(function (res) {
+        _this2.cargar_select_documento = res.data;
       });
     },
     changePage: function changePage(page) {
       this.paginate.current_page = page;
-      this.pages = {
-        page: page,
-        buscador: this.pages.buscador
-      };
-      this.getNoticias(this.pages);
+      this.getNoticias(page);
+    },
+    select_año: function select_año(event) {
+      this.buscador = event.target.value;
+    },
+    select_documento: function select_documento(event) {
+      this.tipo_documento = event.target.value;
     },
     editar: function editar(item) {
       window.open("/api/download/".concat(item.id));
     },
-    buscarnormas: function buscarnormas() {
-      console.log('niel');
-      this.getNoticias();
-    }
+    buscarnormas: function buscarnormas() {}
   }
 });
 
@@ -39523,45 +39571,109 @@ var render = function() {
         _vm._v(" "),
         _c(
           "form",
-          {
-            staticClass: "form-inline",
-            attrs: { autocomplete: "off" },
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.getNoticias($event)
-              }
-            }
-          },
+          { staticClass: "form-inline", attrs: { autocomplete: "off" } },
           [
-            _c("div", { staticClass: "form-group row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("input", {
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "select",
+                {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.pages.buscador,
-                      expression: "pages.buscador"
+                      value: _vm.buscador,
+                      expression: "buscador"
                     }
                   ],
-                  staticClass: "form-control border-dark",
+                  staticClass: "form-control",
                   attrs: {
-                    type: "search",
-                    placeholder: "Buscar el N° Expediente",
-                    "aria-label": "Search"
+                    id: "exampleFormControlSelect1",
+                    placeholder: "Buscar el N° Expediente"
                   },
-                  domProps: { value: _vm.pages.buscador },
                   on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.buscador = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function($event) {
+                        _vm.select_año
                       }
-                      _vm.$set(_vm.pages, "buscador", $event.target.value)
-                    }
+                    ]
                   }
-                })
-              ])
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("Seleccione Año")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.years, function(year) {
+                    return _c(
+                      "option",
+                      { key: year.value, domProps: { value: year } },
+                      [_vm._v(_vm._s(year.value))]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.tipo_documento,
+                      expression: "tipo_documento"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { id: "exampleFormControlSelect1" },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.tipo_documento = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      _vm.select_documento
+                    ]
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("Seleccione Tipo de Documento")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.cargar_select_documento, function(documento) {
+                    return _c("option", { key: documento.id }, [
+                      _vm._v(_vm._s(documento.documento))
+                    ])
+                  })
+                ],
+                2
+              )
             ]),
             _vm._v(" "),
             _c(
@@ -39572,9 +39684,15 @@ var render = function() {
                   type: "button",
                   "data-toggle": "modal",
                   "data-target": "#CrearPersonas"
+                },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.getNoticias($event)
+                  }
                 }
               },
-              [_vm._v("Nuevo Persona")]
+              [_vm._v("Buscar")]
             )
           ]
         ),

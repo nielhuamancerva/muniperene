@@ -11,8 +11,10 @@ class PublicacionNormatividadController extends Controller
     public function index(Request $request)
     {
 
-        /*
-        $documentos=Normatividad::paginate(5);
+        $query=$request->buscador;
+
+        $documentos=Normatividad::where('tipo_documento','LIKE','%'.$request->tipo_documento.'%')->orwhere('año_documento','=',$request->buscador)->paginate(5);
+   
         return ['paginate'=>[
             'total' => $documentos->total(),
             'current_page' => $documentos->currentPage(),
@@ -21,7 +23,7 @@ class PublicacionNormatividadController extends Controller
             'from' => $documentos->firstItem(),
             'to' => $documentos->lastPage(),
         ],
-        'documentos'=> $documentos];*/
+        'documentos'=> $documentos];
         
     }
 
@@ -33,19 +35,6 @@ class PublicacionNormatividadController extends Controller
     public function store(Request $request)
     {
       
-            $query=$request->buscador;
-
-                $documentos=Normatividad::where('tipo_documento','LIKE','%'.$query.'%')->paginate(5);
-      
-                return ['paginate'=>[
-                    'total' => $documentos->total(),
-                    'current_page' => $documentos->currentPage(),
-                    'per_page' =>$documentos->perPage(),
-                    'last_page' =>$documentos->lastPage(),
-                    'from' => $documentos->firstItem(),
-                    'to' => $documentos->lastPage(),
-                ],
-                'documentos'=> $documentos];
      
     }
     public function ss($id)
