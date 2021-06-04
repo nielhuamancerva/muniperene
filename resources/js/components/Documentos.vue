@@ -5,9 +5,9 @@
             <h3 class="text-center"> LISTA DE NORMATIVIDAD </h3>  
             <form class="form-inline" autocomplete="off">
                         <div class="form-group">
-                                        <select class="form-control" id="exampleFormControlSelect1" placeholder="Buscar el N° Expediente" v-model="buscador" @change="select_año" >
+                                        <select class="form-control" id="exampleFormControlSelect1" placeholder="Buscar el N° Expediente" v-model="ano" @change="select_año" >
                                            <option disabled value="">Seleccione Año</option>
-                                        <option v-for="year in years" :key="year.value" :value="year">{{year.value}}</option>
+                                        <option v-for="year in years" :key="year.value">{{year.value}}</option>
                                         </select>
                         </div>
                         <div class="form-group">
@@ -77,7 +77,7 @@ export default {
         return{
             documentos: [],
             cargar_select_documento: [],   
-            buscador:'',
+            ano:'',
             tipo_documento:'',
             years: [{ value: '2021', text: '2021' },{value: '2020',text: '2020'},{value: '2019',text: '2019'},{value: '2018',text: '2018'}
             ,{value: '2017',text: '2017'},{value: '2016',text: '2016'},{value: '2015',text: '2015'},{value: '2014',text: '2014'},{value: '2013',text: '2013'}
@@ -127,7 +127,9 @@ export default {
     methods:{
         getNoticias: function(page){
 
-            axios.get('/api/normas?page='+page+'&buscador='+this.buscador+'&tipo_documento='+this.tipo_documento).then((res)=>{
+            axios.get('/api/normas?page='+page+'&ano='+this.ano+'&tipo_documento='+this.tipo_documento).then((res)=>{
+                console.log(this.ano);
+                 console.log(this.tipo_documento);
             this.documentos= res.data.documentos.data,
             this.paginate = res.data.paginate
         }).catch(function (error) {
@@ -147,7 +149,7 @@ export default {
         },
 
         select_año(event){
-        this.buscador=event.target.value;
+        this.ano=event.target.value;
         }, 
 
         select_documento(event){

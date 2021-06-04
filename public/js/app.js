@@ -2005,7 +2005,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       documentos: [],
       cargar_select_documento: [],
-      buscador: '',
+      ano: '',
       tipo_documento: '',
       years: [{
         value: '2021',
@@ -2091,7 +2091,9 @@ __webpack_require__.r(__webpack_exports__);
     getNoticias: function getNoticias(page) {
       var _this = this;
 
-      axios.get('/api/normas?page=' + page + '&buscador=' + this.buscador + '&tipo_documento=' + this.tipo_documento).then(function (res) {
+      axios.get('/api/normas?page=' + page + '&ano=' + this.ano + '&tipo_documento=' + this.tipo_documento).then(function (res) {
+        console.log(_this.ano);
+        console.log(_this.tipo_documento);
         _this.documentos = res.data.documentos.data, _this.paginate = res.data.paginate;
       })["catch"](function (error) {
         alert('No se Realizo esta accion ' + error);
@@ -2109,7 +2111,7 @@ __webpack_require__.r(__webpack_exports__);
       this.getNoticias(page);
     },
     select_año: function select_año(event) {
-      this.buscador = event.target.value;
+      this.ano = event.target.value;
     },
     select_documento: function select_documento(event) {
       this.tipo_documento = event.target.value;
@@ -39581,8 +39583,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.buscador,
-                      expression: "buscador"
+                      value: _vm.ano,
+                      expression: "ano"
                     }
                   ],
                   staticClass: "form-control",
@@ -39601,7 +39603,7 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.buscador = $event.target.multiple
+                        _vm.ano = $event.target.multiple
                           ? $$selectedVal
                           : $$selectedVal[0]
                       },
@@ -39617,11 +39619,9 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.years, function(year) {
-                    return _c(
-                      "option",
-                      { key: year.value, domProps: { value: year } },
-                      [_vm._v(_vm._s(year.value))]
-                    )
+                    return _c("option", { key: year.value }, [
+                      _vm._v(_vm._s(year.value))
+                    ])
                   })
                 ],
                 2

@@ -10,11 +10,12 @@ class PublicacionNormatividadController extends Controller
 
     public function index(Request $request)
     {
+      
+        $año=$request->ano;
+        $tipo_documento=$request->tipo_documento;
 
-        $query=$request->buscador;
-
-        $documentos=Normatividad::where('tipo_documento','LIKE','%'.$request->tipo_documento.'%')->orwhere('año_documento','=',$request->buscador)->paginate(5);
-   
+        $documentos=Normatividad::where([['tipo_documento','LIKE','%'.$tipo_documento.'%'],['año_documento','=',$año]])->paginate(5);
+        
         return ['paginate'=>[
             'total' => $documentos->total(),
             'current_page' => $documentos->currentPage(),
@@ -24,7 +25,7 @@ class PublicacionNormatividadController extends Controller
             'to' => $documentos->lastPage(),
         ],
         'documentos'=> $documentos];
-        
+   
     }
 
     public function create()
