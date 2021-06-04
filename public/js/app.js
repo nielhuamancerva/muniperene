@@ -1985,10 +1985,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       documentos: [],
+      pages: {
+        page: '',
+        buscador: ''
+      },
       offset: 3,
       paginate: {
         'total': 0,
@@ -2035,16 +2048,27 @@ __webpack_require__.r(__webpack_exports__);
     this.getNoticias();
   },
   methods: {
-    getNoticias: function getNoticias(page) {
+    getNoticias: function getNoticias() {
       var _this = this;
 
-      var urlNoticias = '/api/normas?page=' + page;
-      axios.get(urlNoticias).then(function (res) {
+      axios.post('/api/normas', this.pages).then(function (res) {
         _this.documentos = res.data.documentos.data, _this.paginate = res.data.paginate;
       });
     },
+    changePage: function changePage(page) {
+      this.paginate.current_page = page;
+      this.pages = {
+        page: page,
+        buscador: this.pages.buscador
+      };
+      this.getNoticias(this.pages);
+    },
     editar: function editar(item) {
       window.open("/api/download/".concat(item.id));
+    },
+    buscarnormas: function buscarnormas() {
+      console.log('niel');
+      this.getNoticias();
     }
   }
 });
@@ -39498,6 +39522,64 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c(
+          "form",
+          {
+            staticClass: "form-inline",
+            attrs: { autocomplete: "off" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.getNoticias($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.pages.buscador,
+                      expression: "pages.buscador"
+                    }
+                  ],
+                  staticClass: "form-control border-dark",
+                  attrs: {
+                    type: "search",
+                    placeholder: "Buscar el N° Expediente",
+                    "aria-label": "Search"
+                  },
+                  domProps: { value: _vm.pages.buscador },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.pages, "buscador", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "modal",
+                  "data-target": "#CrearPersonas"
+                }
+              },
+              [_vm._v("Nuevo Persona")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
           "table",
           { staticClass: "table table-hover table-responsive" },
           [
@@ -39524,20 +39606,21 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.resumen_documento))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.archivo))]),
-                  _vm._v(" "),
                   _c("td", [
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-warning btn-sm",
+                        staticClass: "btn btn-danger",
                         on: {
                           click: function($event) {
                             return _vm.editar(item)
                           }
                         }
                       },
-                      [_vm._v("Editar")]
+                      [
+                        _c("i", { staticClass: "fas fa-check" }),
+                        _vm._v("download")
+                      ]
                     )
                   ])
                 ])

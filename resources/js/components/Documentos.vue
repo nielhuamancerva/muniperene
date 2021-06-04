@@ -2,7 +2,16 @@
     <div>
         <div class="row">
         <div class="col-md-8 mx-auto">
-            <h3 class="text-center"> LISTA DE NORMATIVIDAD </h3>   
+            <h3 class="text-center"> LISTA DE NORMATIVIDAD </h3>  
+            <form class="form-inline" autocomplete="off" @click.prevent="getNoticias">
+          
+             <div class="form-group row">
+                    <div class="col-md-6">
+                        <input class="form-control border-dark" type="search" placeholder="Buscar el N° Expediente" aria-label="Search" v-model="pages.buscador">
+                    </div>
+            </div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#CrearPersonas" >Nuevo Persona</button>  
+              </form> 
                 <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
@@ -18,10 +27,10 @@
                         <tr>
                         <th scope="row">{{item.id}}</th>
                         <td>{{item.tipo_documento}} N°{{item.numero_documento}}-{{item.año_documento}}-{{item.siglas_documento}}</td>
-                        <td>{{item.resumen_documento}}</td>         
-                           <td>{{item.archivo}}</td>                       
+                        <td>{{item.resumen_documento}}</td>               
                         <td>
-                             <button class="btn btn-warning btn-sm" @click="editar(item)">Editar</button>
+                             <button class="btn btn-danger" @click="editar(item)"><i class="fas fa-check" ></i>download</button>
+                            
                         </td>
                         </tr>
            
@@ -61,6 +70,7 @@ export default {
     data(){
         return{
             documentos: [],   
+            pages:{page:'',buscador:''},
             offset:3,
             paginate:{
             'total':0,
@@ -103,21 +113,30 @@ export default {
        this.getNoticias();
     },
     methods:{
-        getNoticias: function(page){
-            var urlNoticias = '/api/normas?page='+page;
-            axios.get(urlNoticias).then((res)=>{
+        getNoticias: function(){
+              
+            axios.post('/api/normas',this.pages).then((res)=>{
             this.documentos= res.data.documentos.data,
             this.paginate = res.data.paginate
         })
         },
 
-        editar(item){
-            window.open(`/api/download/${item.id}`);
-
+           changePage: function(page){
+            this.paginate.current_page = page;
+             this.pages={page:page,buscador:this.pages.buscador}
+            this.getNoticias(this.pages);
         },
 
 
+        editar(item){
+            window.open(`/api/download/${item.id}`);
+        },
 
+        buscarnormas(){
+
+            console.log('niel');
+          this.getNoticias();
+        }
      }
 }
 </script>

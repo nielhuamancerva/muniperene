@@ -27,6 +27,7 @@ Route::get('/backindex', 'App\Http\Controllers\Welcome\SlideController@index')->
 
 Route::get('/download/{file}', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController@download');
 
+
 Route::resource('normas', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController');
 
 Route::resource('noticias', 'App\Http\Controllers\Welcome\NoticiasController');

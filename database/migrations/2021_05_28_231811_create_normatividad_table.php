@@ -16,7 +16,7 @@ class CreateNormatividadTable extends Migration
             $table->string('año_documento');
             $table->string('siglas_documento');
             $table->string('resumen_documento');
-            $table->string('archivo');
+            $table->string('archivo')->unique();
             $table->timestamps();
         });
     }

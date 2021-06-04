@@ -24,7 +24,8 @@ export default{
         {
             path: '/normas',
             component: Documentos,
-            name: "Normas"
+            name: "Normas",
+
         },
         {
             path: '/about',
