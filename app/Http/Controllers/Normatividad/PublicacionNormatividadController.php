@@ -14,7 +14,20 @@ class PublicacionNormatividadController extends Controller
         $año=$request->ano;
         $tipo_documento=$request->tipo_documento;
 
-        $documentos=Normatividad::where([['tipo_documento','LIKE','%'.$tipo_documento.'%'],['año_documento','=',$año]])->paginate(5);
+        if($tipo_documento!=null){
+            $documentos=Normatividad::where('tipo_documento','LIKE','%'.$tipo_documento.'%')->paginate(5);
+        }
+        elseif($año!=null){
+            $documentos=Normatividad::where('año_documento','=',$año)->paginate(5);
+        }
+        elseif($tipo_documento==null && $año==null){
+            $documentos=Normatividad::paginate(5);
+        }
+        else
+        {
+            $documentos=Normatividad::where([['tipo_documento','LIKE','%'.$tipo_documento.'%'],['año_documento','=',$año]])->paginate(5);
+        }
+       
         
         return ['paginate'=>[
             'total' => $documentos->total(),
