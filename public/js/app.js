@@ -2790,6 +2790,8 @@ __webpack_require__.r(__webpack_exports__);
           archivo: null
         };
         _this3.nombre = '';
+      })["catch"](function (error) {
+        alert('El Archivo ya esta Registro; Cambialo');
       });
     }
   }

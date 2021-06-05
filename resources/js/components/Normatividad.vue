@@ -238,7 +238,9 @@ export default {
                 this.selected='';
                 this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null};
                 this.nombre='';
-                })  
+                }).catch(function (error) {
+                     alert('El Archivo ya esta Registro; Cambialo');
+        });  
         },
     }
 }
