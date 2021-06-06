@@ -35,8 +35,7 @@ class NormatividadController extends Controller
       
         if($request->hasFile('archivo'))
         {
-            $file=$request->archivo;
-            $file->move(public_path() . "/documentos/{$request->tipo_documento}/{$request->año_documento}",$file->getClientOriginalName());
+           
         
             if($request->id==''){
                 $normatividad = new Normatividad();
@@ -49,6 +48,8 @@ class NormatividadController extends Controller
                     File::delete("documentos/{$normatividad->tipo_documento}/{$normatividad->año_documento}/{$img}");
                 }
             }
+            $file=$request->archivo;
+            $file->move(public_path() . "/documentos/{$request->tipo_documento}/{$request->año_documento}",$file->getClientOriginalName());
             $normatividad->archivo = $file->getClientOriginalName();
         }
         else
