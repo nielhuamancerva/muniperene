@@ -2738,7 +2738,7 @@ __webpack_require__.r(__webpack_exports__);
         siglas_documento: '',
         resumen_documento: '',
         archivo: null
-      }, this.selected = '', $('#exampleModal').modal('hide');
+      }, this.nombre = '', this.selected = '', $('#exampleModal').modal('hide');
     },
     editar: function editar(item) {
       this.newnormativad.id = item.id;
@@ -2747,6 +2747,7 @@ __webpack_require__.r(__webpack_exports__);
       this.newnormativad.año_documento = item.año_documento;
       this.newnormativad.siglas_documento = item.siglas_documento;
       this.newnormativad.resumen_documento = item.resumen_documento;
+      this.nombre = item.archivo;
     },
     changePage: function changePage(page) {
       this.paginate.current_page = page;

@@ -198,6 +198,7 @@ export default {
 
         closemodal(){
              this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null},
+             this.nombre='',
                this.selected='',
               $('#exampleModal').modal('hide');
         },
@@ -209,6 +210,7 @@ export default {
             this.newnormativad.año_documento=item.año_documento; 
             this.newnormativad.siglas_documento=item.siglas_documento; 
             this.newnormativad.resumen_documento=item.resumen_documento; 
+            this.nombre=item.archivo;
         },
 
         changePage: function(page){
