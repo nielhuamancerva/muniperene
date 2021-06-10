@@ -2007,40 +2007,7 @@ __webpack_require__.r(__webpack_exports__);
       cargar_select_documento: [],
       ano: '',
       tipo_documento: '',
-      years: [{
-        value: '2021',
-        text: '2021'
-      }, {
-        value: '2020',
-        text: '2020'
-      }, {
-        value: '2019',
-        text: '2019'
-      }, {
-        value: '2018',
-        text: '2018'
-      }, {
-        value: '2017',
-        text: '2017'
-      }, {
-        value: '2016',
-        text: '2016'
-      }, {
-        value: '2015',
-        text: '2015'
-      }, {
-        value: '2014',
-        text: '2014'
-      }, {
-        value: '2013',
-        text: '2013'
-      }, {
-        value: '2012',
-        text: '2012'
-      }, {
-        value: '2011',
-        text: '2011'
-      }],
+      year: [],
       offset: 3,
       paginate: {
         'total': 0,
@@ -2094,7 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/normas?page=' + page + '&ano=' + this.ano + '&tipo_documento=' + this.tipo_documento).then(function (res) {
         console.log(_this.ano);
         console.log(_this.tipo_documento);
-        _this.documentos = res.data.documentos.data, _this.paginate = res.data.paginate;
+        _this.documentos = res.data.documentos.data, _this.year = res.data.year, _this.paginate = res.data.paginate;
       })["catch"](function (error) {
         alert('No se Realizo esta accion ' + error);
       });
@@ -39621,9 +39588,9 @@ var render = function() {
                     _vm._v("Seleccione Año")
                   ]),
                   _vm._v(" "),
-                  _vm._l(_vm.years, function(year) {
-                    return _c("option", { key: year.value }, [
-                      _vm._v(_vm._s(year.value))
+                  _vm._l(_vm.year, function(item) {
+                    return _c("option", { key: item.id }, [
+                      _vm._v(_vm._s(item.año_documento))
                     ])
                   })
                 ],

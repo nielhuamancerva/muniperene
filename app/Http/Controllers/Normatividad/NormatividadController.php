@@ -13,6 +13,7 @@ class NormatividadController extends Controller
 
     public function index()
     {
+
         $normatividad=Normatividad::paginate(5);
         return ['paginate'=>[
             'total' => $normatividad->total(),
@@ -23,6 +24,8 @@ class NormatividadController extends Controller
             'to' => $normatividad->lastPage(),
         ],
         'normatividad'=> $normatividad];
+       
+        return $normatividad;
     }
 
     public function create()

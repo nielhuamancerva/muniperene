@@ -7,7 +7,7 @@
                         <div class="form-group">
                                         <select class="form-control" id="exampleFormControlSelect1" placeholder="Buscar el N° Expediente" v-model="ano" @change="select_año" >
                                            <option disabled value="">Seleccione Año</option>
-                                        <option v-for="year in years" :key="year.value">{{year.value}}</option>
+                                        <option v-for="item in year" :key="item.id">{{item.año_documento}}</option>
                                         </select>
                         </div>
                         <div class="form-group">
@@ -79,9 +79,7 @@ export default {
             cargar_select_documento: [],   
             ano:'',
             tipo_documento:'',
-            years: [{ value: '2021', text: '2021' },{value: '2020',text: '2020'},{value: '2019',text: '2019'},{value: '2018',text: '2018'}
-            ,{value: '2017',text: '2017'},{value: '2016',text: '2016'},{value: '2015',text: '2015'},{value: '2014',text: '2014'},{value: '2013',text: '2013'}
-            ,{value: '2012',text: '2012'},{value: '2011',text: '2011'}],
+            year: [],
             offset:3,
             paginate:{
             'total':0,
@@ -131,6 +129,7 @@ export default {
                 console.log(this.ano);
                  console.log(this.tipo_documento);
             this.documentos= res.data.documentos.data,
+            this.year= res.data.year,
             this.paginate = res.data.paginate
         }).catch(function (error) {
                      alert('No se Realizo esta accion '+error);
