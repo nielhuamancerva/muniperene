@@ -39673,11 +39673,17 @@ var render = function() {
           [
             _vm._m(0),
             _vm._v(" "),
-            _vm._l(_vm.documentos, function(item) {
+            _vm._l(_vm.documentos, function(item, index) {
               return _c("tbody", { key: item.id }, [
                 _c("tr", [
                   _c("th", { attrs: { scope: "row" } }, [
-                    _vm._v(_vm._s(item.id))
+                    _vm._v(
+                      _vm._s(
+                        index +
+                          _vm.paginate.current_page * _vm.paginate.per_page -
+                          (_vm.paginate.per_page - 1)
+                      )
+                    )
                   ]),
                   _vm._v(" "),
                   _c("td", [

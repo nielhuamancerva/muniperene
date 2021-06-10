@@ -28,10 +28,10 @@
                         </tr>
                     </thead>
                   
-                    <tbody v-for="item in documentos" :key="item.id">
+                    <tbody v-for="(item, index) in documentos" :key="item.id">
                    
                         <tr>
-                        <th scope="row">{{item.id}}</th>
+                        <th scope="row">{{index+paginate.current_page*paginate.per_page-(paginate.per_page-1)}}</th>
                         <td>{{item.tipo_documento}} N°{{item.numero_documento}}-{{item.año_documento}}-{{item.siglas_documento}}</td>
                         <td>{{item.resumen_documento}}</td>               
                         <td>
