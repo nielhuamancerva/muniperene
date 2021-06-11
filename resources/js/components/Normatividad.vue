@@ -230,18 +230,20 @@ export default {
             if(this.newnormativad.id===''){
                 const normatividad1= res.data;
                 this.normatividad.push(normatividad1);
-                alert('Se Registro una nueva normatividad');
+                  
+               swal("Registro Exitoso!", this.newnormativad.tipo_documento+"N°"+this.newnormativad.numero_documento+"-"+this.newnormativad.año_documento+"-"+this.newnormativad.siglas_documento, "success");
             }
             else{
                 const index = this.normatividad.findIndex(item => item.id === this.newnormativad.id);
                 this.normatividad[index] = res.data;
-                alert('Se Actualizo una nueva normatividad');
+                 swal("Se Actualizo el Registro!", this.newnormativad.tipo_documento+"N°"+this.newnormativad.numero_documento+"-"+this.newnormativad.año_documento+"-"+this.newnormativad.siglas_documento, "success");
             }
                 this.selected='';
                 this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null};
                 this.nombre='';
                 }).catch(function (error) {
-                     alert('El Archivo ya esta Registro; Cambialo');
+                    swal("Registro no Se Completo!","El Archivo ya Existe", "error");
+             
         });  
         },
     }

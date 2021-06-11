@@ -6,7 +6,7 @@ window.Vue = require('vue').default;
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import routes from './routes';
-
+import swal from 'sweetalert';
 Vue.use(VueRouter);
 
 const app = new Vue({
