@@ -9,6 +9,16 @@ import NewNoticias from './components/NewNoticias';
 import EditNoticias from './components/EditNoticias';
 import Normatividad from './components/Normatividad';
 import Documentos from './components/Documentos';
+
+
+
+function isLoggedIn()
+{
+    return localStorage.getItem("auth");
+}
+
+
+
 export default{
     mode: 'history',
     routes: [
@@ -35,31 +45,49 @@ export default{
             path: '/register',
             name: 'Register',
             component: Register,
-            beforeEnter: (to, form, next) =>{
-                axios.get('/api/athenticated').then(()=>{
-                    next()
-                }).catch(()=>{
-                    return next({ name: 'Login'})
-                })
+            beforeEnter:(to, from, next) => {
+                if (!isLoggedIn()) {
+                  return next({
+                      name: 'Login',
+                    query: { redirect: to.fullPath }
+                  })
+                } else {
+                  next()
+                }
+          
             }
         },
         {
             path: '/login',
             component: Login,
-            name: 'Login'
+            name: 'Login',
+            beforeEnter:(to, from, next) => {
+                if (!isLoggedIn()) {
+                    next()
+                } else {
+                    next({
+                        name: 'Dashboard',
+                      query: { redirect: to.fullPath }
+                    })
+                
+                }
+            }
         },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: Dashboard,
-           beforeEnter: (to, form, next) =>{
-               axios.get('/api/athenticated').then(()=>{
-                   next()
-               }).catch(()=>{
-                   return next({ name: 'Login'})
-               })
-           }
-       
+            beforeEnter:(to, from, next) => {
+                  if (!isLoggedIn()) {
+                    return next({
+                        name: 'Login',
+                      query: { redirect: to.fullPath }
+                    })
+                  } else {
+                    next()
+                  }
+            
+              }
           },
           {
               path: "/noticias",
@@ -115,4 +143,5 @@ export default{
                   }
           
     ]
-}
+   
+};

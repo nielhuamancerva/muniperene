@@ -1889,6 +1889,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/api/logout').then(function () {
+        localStorage.removeItem("auth");
+
         _this.$router.push({
           name: "Home"
         });
@@ -2342,6 +2344,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/api/login', this.form).then(function () {
+        localStorage.setItem("auth", "true");
+
         _this.$router.push({
           name: "Dashboard"
         });
@@ -3141,6 +3145,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+function isLoggedIn() {
+  return localStorage.getItem("auth");
+}
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mode: 'history',
   routes: [{
@@ -3161,31 +3170,49 @@ __webpack_require__.r(__webpack_exports__);
     path: '/register',
     name: 'Register',
     component: _components_Register__WEBPACK_IMPORTED_MODULE_2__.default,
-    beforeEnter: function beforeEnter(to, form, next) {
-      axios.get('/api/athenticated').then(function () {
-        next();
-      })["catch"](function () {
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (!isLoggedIn()) {
         return next({
-          name: 'Login'
+          name: 'Login',
+          query: {
+            redirect: to.fullPath
+          }
         });
-      });
+      } else {
+        next();
+      }
     }
   }, {
     path: '/login',
     component: _components_Login__WEBPACK_IMPORTED_MODULE_3__.default,
-    name: 'Login'
+    name: 'Login',
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (!isLoggedIn()) {
+        next();
+      } else {
+        next({
+          name: 'Dashboard',
+          query: {
+            redirect: to.fullPath
+          }
+        });
+      }
+    }
   }, {
     path: "/dashboard",
     name: "Dashboard",
     component: _components_Dashboard__WEBPACK_IMPORTED_MODULE_4__.default,
-    beforeEnter: function beforeEnter(to, form, next) {
-      axios.get('/api/athenticated').then(function () {
-        next();
-      })["catch"](function () {
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (!isLoggedIn()) {
         return next({
-          name: 'Login'
+          name: 'Login',
+          query: {
+            redirect: to.fullPath
+          }
         });
-      });
+      } else {
+        next();
+      }
     }
   }, {
     path: "/noticias",

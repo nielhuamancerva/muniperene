@@ -21,7 +21,8 @@ export default {
     methods:{
         logout(){
             axios.post('/api/logout').then(()=>{
-                this.$router.push({ name: "Home"})
+                 localStorage.removeItem("auth");
+                this.$router.push({ name: "Home"});
             })
         },
         noticia(){
@@ -33,6 +34,7 @@ export default {
     },
     mounted(){
         axios.get('/api/user').then((res)=>{
+
             this.user = res.data
         })
     }
