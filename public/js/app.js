@@ -1865,6 +1865,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../User */ "./resources/js/User.js");
 //
 //
 //
@@ -1878,6 +1879,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1888,8 +1890,8 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.post('/api/logout').then(function () {
-        localStorage.removeItem("auth");
+      _User__WEBPACK_IMPORTED_MODULE_0__.default.logout().then(function () {
+        localStorage.removeItem("token");
 
         _this.$router.push({
           name: "Home"
@@ -1910,7 +1912,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    axios.get('/api/user').then(function (res) {
+    _User__WEBPACK_IMPORTED_MODULE_0__.default.auth().then(function (res) {
       _this2.user = res.data;
     });
   }
@@ -2274,6 +2276,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../User */ "./resources/js/User.js");
 //
 //
 //
@@ -2329,12 +2332,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       form: {
         email: '',
-        password: ''
+        password: '',
+        device_name: 'browser'
       },
       errors: []
     };
@@ -2343,8 +2348,8 @@ __webpack_require__.r(__webpack_exports__);
     loginUser: function loginUser() {
       var _this = this;
 
-      axios.post('/api/login', this.form).then(function () {
-        localStorage.setItem("auth", "true");
+      _User__WEBPACK_IMPORTED_MODULE_0__.default.login(this.form).then(function (response) {
+        localStorage.setItem("token", response.data);
 
         _this.$router.push({
           name: "Dashboard"
@@ -2675,8 +2680,14 @@ __webpack_require__.r(__webpack_exports__);
     getNoticias: function getNoticias(page) {
       var _this = this;
 
-      var urlNoticias = '/api/normatividad?page=' + page;
-      axios.get(urlNoticias).then(function (res) {
+      var token = localStorage.getItem("token");
+      /*var urlNoticias = '/api/normatividad?page='+page;*/
+
+      axios.get('/api/normatividad?page=' + page, {
+        headers: {
+          'Authorization': "Bearer ".concat(token)
+        }
+      }).then(function (res) {
         _this.normatividad = res.data.normatividad.data, _this.paginate = res.data.paginate;
       });
     },
@@ -3040,6 +3051,68 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Api.js":
+/*!*****************************!*\
+  !*** ./resources/js/Api.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var BaseApi = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
+  baseURL: "/api"
+});
+
+var Api = function Api() {
+  var token = localStorage.getItem("token");
+
+  if (token) {
+    BaseApi.defaults.headers.common["Authorization"] = "Bearer ".concat(token);
+  }
+
+  return BaseApi;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Api);
+
+/***/ }),
+
+/***/ "./resources/js/User.js":
+/*!******************************!*\
+  !*** ./resources/js/User.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Api */ "./resources/js/Api.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  login: function login(form) {
+    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.default)().post("/login", form);
+  },
+  logout: function logout() {
+    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.default)().post("/logout");
+  },
+  auth: function auth() {
+    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.default)().get("/user");
+  },
+  getNoticias: function getNoticias() {
+    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.default)().get("/user");
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -3134,6 +3207,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_EditNoticias__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/EditNoticias */ "./resources/js/components/EditNoticias.vue");
 /* harmony import */ var _components_Normatividad__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Normatividad */ "./resources/js/components/Normatividad.vue");
 /* harmony import */ var _components_Documentos__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Documentos */ "./resources/js/components/Documentos.vue");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
 
 
 
@@ -3147,11 +3221,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function isLoggedIn() {
-  return localStorage.getItem("auth");
+  return localStorage.getItem("token");
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mode: 'history',
+  base: process.env.BASE_URL,
   routes: [{
     path: '*',
     component: _components_NotFound__WEBPACK_IMPORTED_MODULE_5__.default
@@ -3218,14 +3293,17 @@ function isLoggedIn() {
     path: "/noticias",
     name: "Noticias",
     component: _components_Noticias__WEBPACK_IMPORTED_MODULE_6__.default,
-    beforeEnter: function beforeEnter(to, form, next) {
-      axios.get('/api/athenticated').then(function () {
-        next();
-      })["catch"](function () {
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (!isLoggedIn()) {
         return next({
-          name: 'Login'
+          name: 'Login',
+          query: {
+            redirect: to.fullPath
+          }
         });
-      });
+      } else {
+        next();
+      }
     }
   }, {
     path: "/newnoticias",
@@ -3257,14 +3335,17 @@ function isLoggedIn() {
     path: "/normatividad",
     name: "Normatividad",
     component: _components_Normatividad__WEBPACK_IMPORTED_MODULE_9__.default,
-    beforeEnter: function beforeEnter(to, form, next) {
-      axios.get('/api/athenticated').then(function () {
-        next();
-      })["catch"](function () {
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (!isLoggedIn()) {
         return next({
-          name: 'Login'
+          name: 'Login',
+          query: {
+            redirect: to.fullPath
+          }
         });
-      });
+      } else {
+        next();
+      }
     }
   }]
 });

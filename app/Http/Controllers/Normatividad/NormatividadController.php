@@ -8,12 +8,19 @@ use App\Models\Normatividad;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 class NormatividadController extends Controller
 {
 
     public function index()
     {
-
+        $user = Auth::user();
+  
+        if(!$user->tokenCan('normativa')) {
+            abort(403,'niel');
+        }
+     
         $normatividad=Normatividad::paginate(5);
         return ['paginate'=>[
             'total' => $normatividad->total(),

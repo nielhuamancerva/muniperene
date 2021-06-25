@@ -166,9 +166,15 @@ export default {
 
     },
     methods:{
-        getNoticias: function(page){
-            var urlNoticias = '/api/normatividad?page='+page;
-            axios.get(urlNoticias).then((res)=>{
+        getNoticias(page){
+             let token = localStorage.getItem("token")
+            /*var urlNoticias = '/api/normatividad?page='+page;*/
+            axios.get('/api/normatividad?page='+page,{
+  headers: {
+    'Authorization': `Bearer ${token}` 
+  }
+}).then((res)=>{
+
             this.normatividad= res.data.normatividad.data,
             this.paginate = res.data.paginate
         })

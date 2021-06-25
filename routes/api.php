@@ -22,7 +22,8 @@ Route::middleware('auth:sanctum')->get('/athenticated', function () {
 });
 Route::post('register', 'App\Http\Controllers\Login\RegisterController@register');
 Route::post('login', 'App\Http\Controllers\Login\LoginController@login');
-Route::post('logout', 'App\Http\Controllers\Login\LoginController@logout');
+Route::post('logout', 'App\Http\Controllers\Login\LoginController@logout')->middleware('auth:sanctum');
+
 Route::get('/backindex', 'App\Http\Controllers\Welcome\SlideController@index')->name('backindex');
 
 Route::get('/download/{file}', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController@download');
@@ -31,5 +32,5 @@ Route::get('/download/{file}', 'App\Http\Controllers\Normatividad\PublicacionNor
 Route::resource('normas', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController');
 
 Route::resource('noticias', 'App\Http\Controllers\Welcome\NoticiasController');
-Route::resource('normatividad', 'App\Http\Controllers\Normatividad\NormatividadController');
+Route::resource('normatividad', 'App\Http\Controllers\Normatividad\NormatividadController')->middleware('auth:sanctum');
 Route::resource('tipodocumentos', 'App\Http\Controllers\TipoDocumentos\TipoDocumentosController');

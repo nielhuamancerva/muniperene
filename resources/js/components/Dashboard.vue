@@ -4,24 +4,26 @@
         <div v-if="user">
         Name: {{user.name}} <br>
         Email: {{user.email}}<br><br>
-        <button @click.prevent="logout">Logout</button>
+       <button @click.prevent="logout">Logout</button>
         <button @click.prevent="noticia">Noticias</button>
         <button @click.prevent="normatividad">Normatividad</button>
         </div>
-
+ 
     </div>
 </template>
 <script>
+import User from "../User";
 export default {
+    
     data(){
         return{
-            user: null
+            user: null,
         }
     },
     methods:{
         logout(){
-            axios.post('/api/logout').then(()=>{
-                 localStorage.removeItem("auth");
+            User.logout().then(()=>{
+             localStorage.removeItem("token");
                 this.$router.push({ name: "Home"});
             })
         },
@@ -33,8 +35,8 @@ export default {
         }
     },
     mounted(){
-        axios.get('/api/user').then((res)=>{
 
+       User.auth().then((res)=>{
             this.user = res.data
         })
     }

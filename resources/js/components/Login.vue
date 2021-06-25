@@ -54,20 +54,23 @@
   
 </template>
 <script>
+import User from "../User";
 export default {
     data(){
         return{
             form:{
                 email: '',
-                password: ''
+                password: '',
+                device_name:'browser'
+
             },
             errors: []
         }
     },
     methods:{
          loginUser(){
-             axios.post('/api/login', this.form).then(() =>{
-                 localStorage.setItem("auth","true");
+           User.login(this.form).then(response =>{
+                 localStorage.setItem("token",response.data);
                  this.$router.push({ name: "Dashboard"}); 
              }).catch((error) =>{
          this.errors = error.response.data.errors;

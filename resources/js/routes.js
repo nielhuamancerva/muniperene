@@ -14,13 +14,14 @@ import Documentos from './components/Documentos';
 
 function isLoggedIn()
 {
-    return localStorage.getItem("auth");
+    return localStorage.getItem("token");
 }
 
 
 
 export default{
     mode: 'history',
+    base: process.env.BASE_URL,
     routes: [
         {
             path: '*',
@@ -93,14 +94,16 @@ export default{
               path: "/noticias",
               name: "Noticias",
               component: Noticias,
-             beforeEnter: (to, form, next) =>{
-                 axios.get('/api/athenticated').then(()=>{
-                     next()
-                 }).catch(()=>{
-                     return next({ name: 'Login'})
-                 })
-             }
-         
+              beforeEnter:(to, from, next) => {
+                if (!isLoggedIn()) {
+                  return next({
+                      name: 'Login',
+                    query: { redirect: to.fullPath }
+                  })
+                } else {
+                  next()
+                }
+            }
             },
             {
                 path: "/newnoticias",
@@ -132,13 +135,16 @@ export default{
                     path: "/normatividad",
                     name: "Normatividad",
                     component: Normatividad,
-                   beforeEnter: (to, form, next) =>{
-                       axios.get('/api/athenticated').then(()=>{
-                           next()
-                       }).catch(()=>{
-                           return next({ name: 'Login'})
-                       })
-                   }
+                    beforeEnter:(to, from, next) => {
+                        if (!isLoggedIn()) {
+                          return next({
+                              name: 'Login',
+                            query: { redirect: to.fullPath }
+                          })
+                        } else {
+                          next()
+                        }
+                    }
                
                   }
           
