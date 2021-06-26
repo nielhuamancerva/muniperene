@@ -110,6 +110,9 @@
     </div>
 </template>
 <script>
+import Api from "../Api";
+import User from '../User';
+
 export default {
     data(){
         return{
@@ -166,15 +169,11 @@ export default {
 
     },
     methods:{
-        getNoticias(page){
-             let token = localStorage.getItem("token")
-            /*var urlNoticias = '/api/normatividad?page='+page;*/
-            axios.get('/api/normatividad?page='+page,{
-  headers: {
-    'Authorization': `Bearer ${token}` 
-  }
-}).then((res)=>{
+        getNoticias (page){
+            var urlNoticias = '/api/normatividad?page='+page;
+             let token = localStorage.getItem("token");
 
+            User.getNoticias(page).then((res)=>{
             this.normatividad= res.data.normatividad.data,
             this.paginate = res.data.paginate
         })

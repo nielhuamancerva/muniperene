@@ -2469,6 +2469,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _Api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Api */ "./resources/js/Api.js");
+/* harmony import */ var _User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../User */ "./resources/js/User.js");
 //
 //
 //
@@ -2580,6 +2582,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2680,14 +2684,9 @@ __webpack_require__.r(__webpack_exports__);
     getNoticias: function getNoticias(page) {
       var _this = this;
 
+      var urlNoticias = '/api/normatividad?page=' + page;
       var token = localStorage.getItem("token");
-      /*var urlNoticias = '/api/normatividad?page='+page;*/
-
-      axios.get('/api/normatividad?page=' + page, {
-        headers: {
-          'Authorization': "Bearer ".concat(token)
-        }
-      }).then(function (res) {
+      _User__WEBPACK_IMPORTED_MODULE_1__.default.getNoticias(page).then(function (res) {
         _this.normatividad = res.data.normatividad.data, _this.paginate = res.data.paginate;
       });
     },
@@ -3106,8 +3105,8 @@ __webpack_require__.r(__webpack_exports__);
   auth: function auth() {
     return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.default)().get("/user");
   },
-  getNoticias: function getNoticias() {
-    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.default)().get("/user");
+  getNoticias: function getNoticias(page) {
+    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__.default)().get('/normatividad?page=' + page);
   }
 });
 

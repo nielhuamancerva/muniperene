@@ -14,7 +14,8 @@ export default {
     return Api().get("/user");
   },
 
-  getNoticias(){
-    return Api().get("/user");
+  getNoticias(page){
+
+    return Api().get('/normatividad?page='+page);
   }
 };
