@@ -9,7 +9,8 @@ import NewNoticias from './components/NewNoticias';
 import EditNoticias from './components/EditNoticias';
 import Normatividad from './components/Normatividad';
 import Documentos from './components/Documentos';
-
+import Cas from './components/Cas';
+import User from "./User";
 
 
 function isLoggedIn()
@@ -31,6 +32,12 @@ export default{
             path: '/',
             component: Home,
             name: "Home"
+        },
+        {
+            path: '/cas',
+            component: Cas,
+            name: "/Cas",
+
         },
         {
             path: '/normas',
@@ -142,7 +149,13 @@ export default{
                             query: { redirect: to.fullPath }
                           })
                         } else {
-                          next()
+                          
+                          User.Normatividad().then(()=>{
+                            next()
+                        }).catch(()=>{
+                            return next({ name: 'Dashboard'})
+                        })
+                         
                         }
                     }
                

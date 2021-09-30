@@ -8,6 +8,11 @@
         <button @click.prevent="noticia">Noticias</button>
         <button @click.prevent="normatividad">Normatividad</button>
         </div>
+
+         <div v-show="norma">
+        token: {{this.habilitar.name}} <br>
+      
+        </div>
  
     </div>
 </template>
@@ -17,10 +22,13 @@ export default {
     
     data(){
         return{
-            user: null,
+            user: {id:''},
+            habilitar:{name:''},
+            norma:null
         }
     },
     methods:{
+    
         logout(){
             User.logout().then(()=>{
              localStorage.removeItem("token");
@@ -34,11 +42,24 @@ export default {
             this.$router.push({ name: 'Normatividad' })
         }
     },
+    
     mounted(){
 
        User.auth().then((res)=>{
-            this.user = res.data
+            this.user = res.data;
+              User.botones(this.user).then((res)=>{
+             
+                    this.habilitar = res.data;
+
+                           console.log(this.habilitar);
+      
         })
+
+        })
+
+
+    
+      
     }
 }
 </script>

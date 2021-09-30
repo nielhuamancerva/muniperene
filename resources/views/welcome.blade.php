@@ -21,7 +21,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                               <a class="dropdown-item" href="#">Inicio</a>
-                              <a class="dropdown-item" href="#">Convocatoria CAS</a>
+                              <a class="dropdown-item" href="/cas">Convocatoria CAS</a>
                               <a class="dropdown-item" href="#">Organización</a>
                              </div>
                       </li>

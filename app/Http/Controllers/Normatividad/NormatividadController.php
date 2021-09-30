@@ -17,8 +17,8 @@ class NormatividadController extends Controller
     {
         $user = Auth::user();
   
-        if(!$user->tokenCan('normativa')) {
-            abort(403,'niel');
+        if(!$user->tokenCan('norma')) {
+            abort(403,'Nautorizado');
         }
      
         $normatividad=Normatividad::paginate(5);

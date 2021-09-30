@@ -171,7 +171,7 @@ export default {
     methods:{
         getNoticias (page){
             var urlNoticias = '/api/normatividad?page='+page;
-             let token = localStorage.getItem("token");
+   
 
             User.getNoticias(page).then((res)=>{
             this.normatividad= res.data.normatividad.data,

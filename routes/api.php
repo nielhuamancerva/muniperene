@@ -26,6 +26,10 @@ Route::post('logout', 'App\Http\Controllers\Login\LoginController@logout')->midd
 
 Route::get('/backindex', 'App\Http\Controllers\Welcome\SlideController@index')->name('backindex');
 
+
+Route::get('/cas', 'App\Http\Controllers\ConvocatoriaCas\ConvocatoriaController@index')->name('cas');
+Route::get('/downloads/{file}', 'App\Http\Controllers\ConvocatoriaCas\ConvocatoriaController@download');
+
 Route::get('/download/{file}', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController@download');
 
 
@@ -33,4 +37,8 @@ Route::resource('normas', 'App\Http\Controllers\Normatividad\PublicacionNormativ
 
 Route::resource('noticias', 'App\Http\Controllers\Welcome\NoticiasController');
 Route::resource('normatividad', 'App\Http\Controllers\Normatividad\NormatividadController')->middleware('auth:sanctum');
+Route::post('botones', 'App\Http\Controllers\Login\LoginController@botones')->middleware('auth:sanctum');
+
+
+
 Route::resource('tipodocumentos', 'App\Http\Controllers\TipoDocumentos\TipoDocumentosController');

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 class LoginController extends Controller
 {
     public function login(Request $request)
@@ -32,4 +34,14 @@ class LoginController extends Controller
         $request->user()->tokens()->delete();
     return response()->json('logout successful', 201);
     }
+    public function botones(Request $request){
+
+        
+        $id=$request->id;
+        $user = DB::table('personal_access_tokens')->where('tokenable_id','=',$id)->select('abilities')->get();
+
+    return response()->json($user);
+    }
+
+ 
 }

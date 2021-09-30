@@ -3,6 +3,7 @@ import Api from "./Api";
 export default {
 
     login(form) {
+      console.log(form);
         return Api().post("/login", form);
       },
 
@@ -15,7 +16,20 @@ export default {
   },
 
   getNoticias(page){
-
     return Api().get('/normatividad?page='+page);
+  },
+  Normatividad(){
+    return Api().get('/normatividad?page=');
+  },
+
+  botones(id){
+
+
+    return Api().post("/botones", id);
   }
+
+
+
+
+
 };
