@@ -3,7 +3,8 @@
         <div class="row">
         <div class="col-md-5 mx-auto">
             <h3 class="text-center"> LISTA DE NOTICIAS </h3>   
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#CrearPersonas" @click.prevent="newnoticia">Nuevo Persona</button>  
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#CrearPersonas" @click.prevent="newnoticia">Nuevo Noticia</button> 
+              <button type="button" class="btn btn-danger" @click.prevent="dashboard">Atras</button>   
                 <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
@@ -118,7 +119,10 @@ export default {
         newnoticia(){
             this.$router.push({ path: '/newnoticias' })
         },
+        dashboard(){
+               this.$router.push({path: '/dashboard'})
 
+        },
         editar(item){
             
 

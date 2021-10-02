@@ -18,12 +18,14 @@ export default {
   getNoticias(page){
     return Api().get('/normatividad?page='+page);
   },
+  getGat(){
+    return Api().get('/gat');
+  },
   Normatividad(){
     return Api().get('/normatividad?page=');
   },
 
   botones(id){
-
 
     return Api().post("/botones", id);
   }

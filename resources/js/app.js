@@ -4,14 +4,14 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import routes from './routes';
-import swal from 'sweetalert';
-Vue.use(VueRouter);
 
+import router from './routes';
+import swal from 'sweetalert';
+
+Vue.config.productionTip = false
 const app = new Vue({
-    el: '#app',
-    router:new VueRouter(routes)
+    router,
+    el: '#app'
 });
 
 

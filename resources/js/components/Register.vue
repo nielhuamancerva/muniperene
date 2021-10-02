@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Register</div>
+                <div class="card-header">REGISTRAR NUEVO USUARIO</div>
 
                 <div class="card-body">
                     <form>
@@ -20,6 +20,18 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="" required autocomplete="email" v-model="form.email">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                                <label for="email" class="col-md-4 col-form-label text-md-right">Roles</label>
+                            <div class="col-md-6">
+                                <select class="custom-select" aria-label="Default select example">
+                                    <option selected>Selecciona un Rol</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
                             </div>
                         </div>
 

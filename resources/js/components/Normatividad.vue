@@ -4,6 +4,7 @@
         <div class="col-md-8 mx-auto">
             <h3 class="text-center"> LISTA DE NORMATIVIDAD </h3>   
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" >Nuevo Normatividad</button>  
+             <button type="button" class="btn btn-danger" @click.prevent="dashboard">Atras</button>   
                 <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
@@ -171,14 +172,15 @@ export default {
     methods:{
         getNoticias (page){
             var urlNoticias = '/api/normatividad?page='+page;
-   
-
             User.getNoticias(page).then((res)=>{
             this.normatividad= res.data.normatividad.data,
             this.paginate = res.data.paginate
         })
         },
+        dashboard(){
+            this.$router.push({path: '/dashboard'})
 
+        },
         getDocumentos(){
             axios.get('/api/tipodocumentos').then(res=>{
             this.documentos = res.data

@@ -20,7 +20,7 @@
                              <img src="imagenes/ciudad.png" width="96" height="96" >
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="#">Inicio</a>
+                              <a class="dropdown-item" href="/">Inicio</a>
                               <a class="dropdown-item" href="/cas">Convocatoria CAS</a>
                               <a class="dropdown-item" href="#">Organización</a>
                              </div>

@@ -10,157 +10,47 @@ import EditNoticias from './components/EditNoticias';
 import Normatividad from './components/Normatividad';
 import Documentos from './components/Documentos';
 import Cas from './components/Cas';
-import User from "./User";
+import Gat from './components/GAT';
+import GestoraCas from './components/Gestor_Cas';
+import Router from 'vue-router';
+import Vue from 'vue'
 
 
-function isLoggedIn()
-{
-    return localStorage.getItem("token");
-}
+Vue.use(Router);
 
-
-
-export default{
+const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
-        {
-            path: '*',
-            component: NotFound
-        },
-        {
-            path: '/',
-            component: Home,
-            name: "Home"
-        },
-        {
-            path: '/cas',
-            component: Cas,
-            name: "/Cas",
-
-        },
-        {
-            path: '/normas',
-            component: Documentos,
-            name: "Normas",
-
-        },
-        {
-            path: '/about',
-            component: About
-        },
-        {
-            path: '/register',
-            name: 'Register',
-            component: Register,
-            beforeEnter:(to, from, next) => {
-                if (!isLoggedIn()) {
-                  return next({
-                      name: 'Login',
-                    query: { redirect: to.fullPath }
-                  })
-                } else {
-                  next()
-                }
-          
-            }
-        },
-        {
-            path: '/login',
-            component: Login,
-            name: 'Login',
-            beforeEnter:(to, from, next) => {
-                if (!isLoggedIn()) {
-                    next()
-                } else {
-                    next({
-                        name: 'Dashboard',
-                      query: { redirect: to.fullPath }
-                    })
-                
-                }
-            }
-        },
-        {
-            path: "/dashboard",
-            name: "Dashboard",
-            component: Dashboard,
-            beforeEnter:(to, from, next) => {
-                  if (!isLoggedIn()) {
-                    return next({
-                        name: 'Login',
-                      query: { redirect: to.fullPath }
-                    })
-                  } else {
-                    next()
-                  }
-            
-              }
-          },
-          {
-              path: "/noticias",
-              name: "Noticias",
-              component: Noticias,
-              beforeEnter:(to, from, next) => {
-                if (!isLoggedIn()) {
-                  return next({
-                      name: 'Login',
-                    query: { redirect: to.fullPath }
-                  })
-                } else {
-                  next()
-                }
-            }
-            },
-            {
-                path: "/newnoticias",
-                name: "NewNoticias",
-                component: NewNoticias,
-               beforeEnter: (to, form, next) =>{
-                   axios.get('/api/athenticated').then(()=>{
-                       next()
-                   }).catch(()=>{
-                       return next({ name: 'Login'})
-                   })
-               }
-           
-              },
-              {
-                  path: "/editnoticias",
-                  name: "EditNoticias",
-                  component: EditNoticias,
-                 beforeEnter: (to, form, next) =>{
-                     axios.get('/api/athenticated').then(()=>{
-                         next()
-                     }).catch(()=>{
-                         return next({ name: 'Login'})
-                     })
-                 }
-             
-                },
-                {
-                    path: "/normatividad",
-                    name: "Normatividad",
-                    component: Normatividad,
-                    beforeEnter:(to, from, next) => {
-                        if (!isLoggedIn()) {
-                          return next({
-                              name: 'Login',
-                            query: { redirect: to.fullPath }
-                          })
-                        } else {
-                          
-                          User.Normatividad().then(()=>{
-                            next()
-                        }).catch(()=>{
-                            return next({ name: 'Dashboard'})
-                        })
-                         
-                        }
-                    }
-               
-                  }
-          
+  {path: '*', redirect: '/login'},
+  {path: '/', component: Home},
+  {path: '/about', component: About},
+  {path: '/cas', component: Cas},
+  {path: '/normas', component: Documentos},
+  {path: '/login', component: Login},
+  {path: '/gestorcas',component: GestoraCas},  
+  {path: '/gat', component: Gat},
+  {path: '/register',component: Register},
+  {path: "/dashboard",component: Dashboard},
+  {path: "/noticias",component: Noticias},
+  {path: "/newnoticias",component: NewNoticias},
+  {path: "/editnoticias",component: EditNoticias},
+  {path: "/normatividad",component: Normatividad}
     ]
    
-};
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login','/cas','/normas','/about','/'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('token');
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  next();
+
+});
+
+export default router;

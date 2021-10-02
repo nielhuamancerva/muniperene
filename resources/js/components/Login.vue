@@ -71,7 +71,7 @@ export default {
          loginUser(){
            User.login(this.form).then(response =>{
                  localStorage.setItem("token",response.data);
-                 this.$router.push({ name: "Dashboard"}); 
+                 this.$router.push({ path: "/dashboard"}); 
              }).catch((error) =>{
          this.errors = error.response.data.errors;
             })

@@ -3,6 +3,8 @@
         <div class="row">
         <div class="col-md-6 mx-auto">
             <h3 class="text-center"> CONVOCATORIA CAS-2021 </h3>  
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" >Nuevo Publicacion CAS</button>  
+            <button type="button" class="btn btn-danger" @click.prevent="dashboard">Atras</button>   
             <form class="form-inline" autocomplete="off">
                 
               </form> 
@@ -112,7 +114,6 @@ export default {
     },
     methods:{
         getNoticias: function(page){
-
             axios.get('/api/cas?page='+page).then((res)=>{
                 console.log(res);
                  console.log(this.tipo_documento);
@@ -123,7 +124,10 @@ export default {
                      alert('No se Realizo esta accion '+error);
         });
         },
+        dashboard(){
+            this.$router.push({path: '/dashboard'})
 
+        },
         getDocumentos(){
             axios.get('/api/tipodocumentos').then(res=>{
             this.cargar_select_documento = res.data

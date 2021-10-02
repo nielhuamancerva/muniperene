@@ -3,7 +3,7 @@
     <form @submit.prevent="agregar">
    <h3 class="text-center"> NUEVAS NOTICIAS </h3>  
     <div class="form-group row">
-            <label for="name" class="col-md-4 col-form-label text-md-right" >Nombre Noticia </label>
+            <label for="name" class="col-md-6 col-form-label text-md-right" >Nombre Noticia </label>
             <div class="col-md-6">
                 <input id="name" type="text" class="form-control" required placeholder="Nombre de la noticia" v-model="noticia.nombre_noticia">
             </div>

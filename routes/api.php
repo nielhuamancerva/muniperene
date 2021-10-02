@@ -28,6 +28,8 @@ Route::get('/backindex', 'App\Http\Controllers\Welcome\SlideController@index')->
 
 
 Route::get('/cas', 'App\Http\Controllers\ConvocatoriaCas\ConvocatoriaController@index')->name('cas');
+Route::get('/gestorcas', 'App\Http\Controllers\ConvocatoriaCas\GestorConvocatoriaController@index')->name('gestorcas');
+
 Route::get('/downloads/{file}', 'App\Http\Controllers\ConvocatoriaCas\ConvocatoriaController@download');
 
 Route::get('/download/{file}', 'App\Http\Controllers\Normatividad\PublicacionNormatividadController@download');
@@ -39,6 +41,6 @@ Route::resource('noticias', 'App\Http\Controllers\Welcome\NoticiasController');
 Route::resource('normatividad', 'App\Http\Controllers\Normatividad\NormatividadController')->middleware('auth:sanctum');
 Route::post('botones', 'App\Http\Controllers\Login\LoginController@botones')->middleware('auth:sanctum');
 
-
+Route::resource('gat', 'App\Http\Controllers\GAT\GatController')->middleware('auth:sanctum');
 
 Route::resource('tipodocumentos', 'App\Http\Controllers\TipoDocumentos\TipoDocumentosController');

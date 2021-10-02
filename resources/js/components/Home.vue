@@ -48,7 +48,6 @@
       },
       created(){
         axios.get('/api/backindex').then(res=>{ this.noticias=res.data;
-
         })
       }
     }
