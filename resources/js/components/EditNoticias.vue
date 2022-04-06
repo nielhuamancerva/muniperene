@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import User from '../User';
 export default {
   data() {
     return {
@@ -75,13 +76,16 @@ clickbutton()
           noticia.append(key, this.noticia[key]);
       }
 
-     axios.post('/api/noticias', noticia)
-        .then((res) =>{
-          
-            this.$router.push({ path: '/noticias' })
-        })
+    User.PostNoticias(noticia).then((res) =>{
+            this.$router.push({ path: '/gestornoticias' });
+            console.log(res);
+              swal("Registro Exitoso de la Noticia!",res.data.descripcion+'con imagen : '+res.data.imagen, "success");
+    }).catch(function (error) {
+            swal("Registro no Se Completo!", error.response.data.message, "error");
+             
+             
+    });
     }
-  
   }
 }
 </script>

@@ -1,10 +1,11 @@
 <template>
     <div>
         <div class="row">
-        <div class="col-md-8 mx-auto">
+            <div class="col-md-6 mx-auto">
             <h3 class="text-center"> LISTA DE NORMATIVIDAD </h3>   
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" >Nuevo Normatividad</button>  
-             <button type="button" class="btn btn-danger" @click.prevent="dashboard">Atras</button>   
+                <button type="button" class="btn btn-danger" @click.prevent="dashboard">Atras</button>   
+                    <form class="form-inline" autocomplete="off"></form> 
                 <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
@@ -27,7 +28,7 @@
                              <button class="btn btn-warning btn-sm" @click="editar(item)" data-toggle="modal" data-target="#exampleModal"><i class="far fa-edit"></i></button>
                         </td>
                         </tr>
-           
+                      
                     </tbody>
                 </table>
 
@@ -51,12 +52,11 @@
                                 </a>
                             </li>
                         </ul>
-                    </nav>
-
+                </nav>
             </div>
         </div>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" 
+        
+           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" 
                 data-keyboard="false">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -107,23 +107,14 @@
                             </div>
                         </div>
                     </div>
-            </div>
+            </div>  
     </div>
 </template>
 <script>
 import User from '../User';
-
 export default {
-    data(){
+   data(){
         return{
-            selected:{},
-            years: [{ value: '2021', text: '2021' },{value: '2020',text: '2020'},{value: '2019',text: '2019'},{value: '2018',text: '2018'}
-            ,{value: '2017',text: '2017'},{value: '2016',text: '2016'},{value: '2015',text: '2015'},{value: '2014',text: '2014'},{value: '2013',text: '2013'}
-            ,{value: '2012',text: '2012'},{value: '2011',text: '2011'}],
-            normatividad: [],
-            documentos: [],
-            nombre:null,
-            newnormativad: {id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null},
             offset:3,
             paginate:{
             'total':0,
@@ -131,9 +122,17 @@ export default {
             'per_page':0,
             'last_page':0,
             'from':0,
-            'to':0}
+            'to':0},
+
+             selected:{},
+            years: [{ value: '2021', text: '2021' },{value: '2020',text: '2020'},{value: '2019',text: '2019'},{value: '2018',text: '2018'}
+            ,{value: '2017',text: '2017'},{value: '2016',text: '2016'},{value: '2015',text: '2015'},{value: '2014',text: '2014'},{value: '2013',text: '2013'}
+            ,{value: '2012',text: '2012'},{value: '2011',text: '2011'}],
+            normatividad: [],
+            documentos: [],
+            nombre:null,
+            newnormativad: {id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null},
         }
-      
     },
     computed:{
         isActived:function(){
@@ -165,15 +164,23 @@ export default {
     ,
     mounted(){
        this.getNoticias();
-        this.getDocumentos();
-
+    this.getDocumentos();
     },
     methods:{
-        getNoticias (page){
+        clickbutton(){
+            $('#boton-descarga').click()
+        },
+        select_file(event){
+          this.newnormativad.archivo=event.target.files[0];
+           this.nombre=this.newnormativad.archivo.name;
+        }, 
+        getNoticias: function(page){
             User.getNormatividad(page).then((res)=>{
             this.normatividad= res.data.normatividad.data,
             this.paginate = res.data.paginate
-        })
+        }).catch(function (error) {
+                     alert('No hay ninguno registro '+error);
+        });
         },
         dashboard(){
             this.$router.push({path: '/dashboard'})
@@ -181,31 +188,9 @@ export default {
         },
         getDocumentos(){
             axios.get('/api/tipodocumentos').then(res=>{
-            this.documentos = res.data
+             this.documentos = res.data
+
         })
-        },
-
-        select_documento(event){
-        this.newnormativad.tipo_documento=event.target.value;
-        },
-
-        clickbutton(){
-        $('#boton-descarga').click()
-        },
-        select_file(event){
-          this.newnormativad.archivo=event.target.files[0];
-           this.nombre=this.newnormativad.archivo.name;
-        }, 
-
-        select_año(event){
-          this.newnormativad.año_documento=event.target.value;
-        }, 
-
-        closemodal(){
-             this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null},
-             this.nombre='',
-               this.selected='',
-              $('#exampleModal').modal('hide');
         },
 
         editar(item){
@@ -217,40 +202,45 @@ export default {
             this.newnormativad.resumen_documento=item.resumen_documento; 
             this.nombre=item.archivo;
         },
-
-
         changePage: function(page){
             this.paginate.current_page = page;
             this.getNoticias(page);
+            this.page=page;
+                  this.getDocumentos();
         },
 
-        crearnormatividad(){
-                let newnormativad = new FormData();
-                    for(let key in this.newnormativad){ 
-                        newnormativad.append(key, this.newnormativad[key]);
-                    }
-        User.PostNormatividad(newnormativad).then((res) =>{
-                $('#exampleModal').modal('hide');
+        select_año(event){
+            this.newnormativad.año_documento=event.target.value;
+        }, 
 
-            if(this.newnormativad.id===''){
-                  
-               swal("Registro Exitoso!", this.newnormativad.tipo_documento+"N°"+this.newnormativad.numero_documento+"-"+this.newnormativad.año_documento+"-"+this.newnormativad.siglas_documento, "success");
-            }
-            else{
+        select_documento(event){
+        this.newnormativad.tipo_documento=event.target.value;
+        },
 
-                 swal("Se Actualizo el Registro!", res.tipo_documento+"N°"+res.numero_documento+"-"+res.newnormativad.año_documento+"-"+res.siglas_documento, "success");
-            }
-                this.selected='';
-                this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null};
-                this.nombre='';
-                }).catch(function (error) {
-               
-                    swal("Registro no Se Completo!","El Archivo ya Existe", "error");
-             
-        });  
-
+        editar(item){
+           this.newnormativad.id=item.id;
+            this.newnormativad.tipo_documento=item.tipo_documento;
+            this.newnormativad.numero_documento=item.numero_documento; 
+            this.newnormativad.año_documento=item.año_documento; 
+            this.newnormativad.siglas_documento=item.siglas_documento; 
+            this.newnormativad.resumen_documento=item.resumen_documento; 
+            this.nombre=item.archivo;
         },
         
+        closemodal(){
+            this.newnormativad={id:'',descripcion:'',archivo:null},
+            this.nombrefile='',
+            this.selected='',
+              $('#exampleModal').modal('hide');
+        },
+
+        descargar(item){
+            window.open(`/api/downloads/${item.id}`);
+        },
+
+        buscarnormas(){
+   
+        },
         crearcas(){
             let newnormativad = new FormData();
                 for(let key in this.newnormativad){ 
@@ -259,24 +249,48 @@ export default {
 
             User.PostNormatividad(newnormativad).then((res) =>{
                 $('#exampleModal').modal('hide');
-
+                console.log(res);
                 if(this.newnormativad.id===''){
-                    swal("Registro Exitoso!", this.newnormativad, "success");
+                    swal("Registro Exitoso!", this.newnormativad.tipo_documento+"N°"+this.newnormativad.numero_documento+"-"+this.newnormativad.año_documento+"-"+this.newnormativad.siglas_documento, "success");
                     this.changePage(this.page);
                 }
                 else{
-
-                    swal("Se Actualizo el Registro!", this.newnormativad, "success");
+                    swal("Se Actualizo el Registro!", this.newnormativad.tipo_documento+"N°"+this.newnormativad.numero_documento+"-"+this.newnormativad.año_documento+"-"+this.newnormativad.siglas_documento, "success");
+                     this.changePage(this.page);
                 }
                     this.selected='';
-                    this.newcas= {id:'',descripcion:'',archivo:null};
+                      this.newnormativad={id:'',tipo_documento:'',numero_documento:'',año_documento:'',siglas_documento:'',resumen_documento:'',archivo:null};
                     this.nombrefile='';
                 }).catch(function (error) {
-                    swal("Registro no Se Completo!","El Archivo ya Existe", "error");
+                    console.log(error);
+                    // esta es la cadena donde buscaremos
+                    let cadena = error.response.data.message;
+                    // esta es la palabra a buscar
+                    let termino = "'";
+                    // para buscar la palabra hacemos inicial
+                    let posicioninicial = cadena.indexOf(termino);
+                        // para buscar la palabra hacemos final
+                    let posicionfinal = cadena.lastIndexOf(termino);
+
+                    let palabra = cadena.substring(posicioninicial+1,posicionfinal);
+    
+                    let inputError  = '';
+                    switch(palabra) {
+                        case 'tipo_documento': inputError='Tipo de Documento'; break;
+                        case 'numero_documento': inputError='Numero de Documento'; break;
+                        case 'año_documento': inputError='Año del Documento'; break;
+                        case 'siglas_documento': inputError='Siglas del Documento'; break;
+                        case 'resumen_documento': inputError='Resumen'; break;
+                        case 'archivo': inputError='Archivo'; break;
+                          default : inputError='Archivo'; break;
+                        }
+
+                    swal("Registro no Se Completo!",'Verificar lo escribido o Cargado en : '+inputError , "error");
              
                 });  
-        }
 
-    }
+        },
+
+     }
 }
 </script>

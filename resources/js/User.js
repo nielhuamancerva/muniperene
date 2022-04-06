@@ -50,8 +50,8 @@ getNormatividad(page){
     return Api().get('/normatividad?page='+page);
   },
 
-PostNormatividad(data){
-    return Api().post('/normatividad',data);
+PostNormatividad(normatividad){
+    return Api().post('/normatividad',normatividad);
   },
 
 PostCas(datacas){

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Exceptions;
+
+
 class NormatividadController extends Controller
 {
 
@@ -38,6 +41,7 @@ class NormatividadController extends Controller
 
     public function store(Request $request)
     {
+
       
         if($request->hasFile('archivo'))
         {
@@ -70,6 +74,13 @@ class NormatividadController extends Controller
         $normatividad->resumen_documento = $request->resumen_documento;
         $normatividad ->save();
         return $normatividad;
+
+    
+ 
+        
+
+
+
     }
 
     public function show($id)

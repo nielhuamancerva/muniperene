@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="page-loader">
         Dashboard <br>
         <div v-if="user">
         Name: {{user.name}} <br>
@@ -58,6 +58,23 @@ export default {
     //           }
          },
     methods:{
+        dashboard(){
+            User.auth().then((res)=>{
+        this.user = res.data;
+           switch(res.data.role) {
+                case 'ROLE_SGTI': return this.SGTI = res.data.role;
+                case 'ROLE_GAT': return  this.GAT = res.data.role;
+                case 'ROLE_GPSDH': return  this.GPSDH = res.data.role;
+                case 'ROLE_GIDUR': return  this.GIDUR = res.data.role;
+                case 'ROLE_GDE': return  this.GDE = res.data.role;
+                case 'ROLE_GAF': return  this.GAF = res.data.role;
+                case 'ROLE_GEPPI': return  this.GEPPI = res.data.role;
+                case 'ROLE_ADMIN': return  this.ADMIN = res.data.role;
+                case 'ROLE_TRAMITE': return  this.TRAMITE = res.data.role;
+              }
+           
+        })   
+        },
     
         logout(){
             User.logout().then(()=>{
@@ -86,24 +103,7 @@ export default {
     },
     
     mounted(){
-
-            User.auth().then((res)=>{
-        this.user = res.data;
-           switch(res.data.role) {
-                case 'ROLE_SGTI': return this.SGTI = res.data.role;
-                case 'ROLE_GAT': return  this.GAT = res.data.role;
-                case 'ROLE_GPSDH': return  this.GPSDH = res.data.role;
-                case 'ROLE_GIDUR': return  this.GIDUR = res.data.role;
-                case 'ROLE_GDE': return  this.GDE = res.data.role;
-                case 'ROLE_GAF': return  this.GAF = res.data.role;
-                case 'ROLE_GEPPI': return  this.GEPPI = res.data.role;
-                case 'ROLE_ADMIN': return  this.ADMIN = res.data.role;
-                case 'ROLE_TRAMITE': return  this.TRAMITE = res.data.role;
-              }
-           
-        });    
-
-      
+                 this.dashboard();
     }
 }
 </script>

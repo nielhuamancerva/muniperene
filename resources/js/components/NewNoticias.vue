@@ -11,14 +11,14 @@
           <div class="form-group row">
                   <label for="name" class="col-md-4 col-form-label text-md-right" >Nombre Noticia </label>
                   <div class="col-md-6">
-                      <input id="name" type="text" class="form-control" required placeholder="Nombre de la noticia" v-model="noticia.nombre_noticia">
+                      <input id="name" type="text" class="form-control" required placeholder="Nombre de la noticia" v-model="noticia.nombre_noticia" maxlength="254">
                   </div>
           </div>
 
           <div class="form-group row">
               <label for="name" class="col-md-4 col-form-label text-md-right">Descripcion</label>
               <div class="col-md-6">
-                  <input id="username" type="text" class="form-control" required placeholder="Descripción de la noticia" v-model="noticia.descripcion">
+                  <input id="username" type="text" class="form-control" required placeholder="Descripción de la noticia" v-model="noticia.descripcion" maxlength="254">
               </div>
           </div>
 

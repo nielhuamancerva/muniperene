@@ -80,7 +80,7 @@ export default {
     methods:{
          getNoticias (page){
             axios.get('/api/backindex').then((res)=>{
-                console.log(res.data);
+                console.log(res);
             this.noticias= res.data,
             this.paginate = res.data.paginate
         })

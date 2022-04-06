@@ -10,6 +10,7 @@ import NewNoticias from './components/NewNoticias';
 import EditNoticias from './components/EditNoticias';
 import Noticias from './components/Noticias';
 import GestorNormas from './components/GestorNormas';
+import GestorNormatividad from './components/GestorNormatividad';
 import Normas from './components/Normas';
 import Cas from './components/Cas';
 import Gat from './components/GAT';
@@ -51,7 +52,7 @@ const router = new Router({
   {path: "/newnoticias",component: NewNoticias},
   {path: "/editnoticias",component: EditNoticias,name:"EditNoticias"},
   {path: "/noticias",component: Noticias},
-  {path: "/gestornormas",component: GestorNormas},
+  {path: "/gestornormas",component: GestorNormatividad},
   {path: "/HistoriaDistritodePerene",component: HistoriaDistritodePerene},
     ]
    

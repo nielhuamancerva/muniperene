@@ -8,6 +8,8 @@ use App\Models\Noticias;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use File;
+use App\Exceptions;
+
 class NoticiasController extends Controller
 {
     public function index(Request $request)
@@ -31,6 +33,9 @@ class NoticiasController extends Controller
 
     public function store(Request $request)
     {
+
+        try {
+
         if($request->hasFile('thumbnail'))
         {
             $file=$request->thumbnail;
@@ -58,6 +63,13 @@ class NoticiasController extends Controller
         $noticia->descripcion = $request->descripcion;
         $noticia ->save();
         return $noticia;
+
+    }
+    catch (Throwable $e)
+        {
+            return $e->getMessage();
+        }
+
     }
 
     public function show($id)

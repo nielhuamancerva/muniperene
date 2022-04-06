@@ -1,5 +1,5 @@
 <template>
-      <div class="container">
+      <div class="container" >
      <div class="row">
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 py-2">
               
@@ -13,7 +13,7 @@
                     </ol>
                     <div class="carousel-inner" role="listbox" >
                         <div class="carousel-item" v-for="(item,index) in noticias" :key="index" :class="{ 'active': index === 0 }">
-                            <img v-bind:src="'/imagenes/' + item.imagen"  alt="Fourth Slide" class="img-fluid"/>
+                            <img v-bind:src="'/imagenes/' + item.imagen"  alt="Fourth Slide" class="img-fluid">
                             <div class="carousel-caption" style="background:rgba(0,0,0,0.4)">
                             <h2 style="font-size:1.3vw;">{{item.nombre_noticia}}</h2>
                             <p class="text-warning font-weight-bold" >{{item.descripcion}}</p>
@@ -40,6 +40,7 @@
       </div>
     </div> 
 </template>
+
   <script>
     export default {
       data(){
@@ -53,3 +54,10 @@
       }
     }
 </script>
+
+<style>
+ .carousel-item .img-fluid {
+  width:748px;
+  height:568px;
+ }
+</style>

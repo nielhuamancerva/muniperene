@@ -228,7 +228,7 @@ export default {
                     swal("Registro no Se Completo!",error.response.data.message, "error");
              
                 });  
-        },
+        }
      }
 }
 </script>

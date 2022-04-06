@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Welcome;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Noticias;
+use App\Services\SlideService;
 class SlideController extends Controller
 {
  
     public function index()
     {
   
-        return $noticias=Noticias::latest()
-        ->take(5)
-        ->get();
+        return (new SlideService())->GetServiceSlide();
     }
 
     public function create()
